@@ -1,0 +1,7 @@
+{
+  "entrypoint": "de.geolykt.faststar.FastStar",
+  "name": "FastStar",
+  "author": "Geolykt",
+  "version": "1.0.0",
+  "mixinConfig": "fastmixins.json"
+}

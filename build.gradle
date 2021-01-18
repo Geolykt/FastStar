@@ -1,0 +1,19 @@
+plugins {
+    // Apply the java-library plugin to add support for Java Library
+    id 'java-library'
+}
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+repositories {
+    mavenLocal()
+    maven {
+        name 'sponge'
+        url 'https://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    compileOnly files("galimulator-desktop.jar") // Galimulator proper
+    api "de.geolykt:starloader:0.0.1-SNAPSHOT" // The minimalistic starloader "api" as well all of it's depends
+}
