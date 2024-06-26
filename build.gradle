@@ -25,6 +25,7 @@ repositories {
 }
 
 starplane {
+    withRAS(rootProject.file("src/main/resources/faststar.ras"))
     mappingsFile("tinyv2", "newStarmap.tinyv2")
 }
 
@@ -41,13 +42,18 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240624.1:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
-    devRuntime "org.stianloader:launcher-micromixin:4.0.0"
+    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240626"
     compileOnly "org.stianloader:micromixin-annotations:0.5.0-a20240518"
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
     compileOnlyApi "org.jetbrains:annotations:24.1.0"
 
+    // https://mvnrepository.com/artifact/org.danilopianini/java-quadtree
+    // Remember to adjust the version here to the version used in the extension.json, too!
+    compileOnly ("org.danilopianini:java-quadtree:0.2.0") {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
 
     // Library mods
     dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240624.1:remapped"
@@ -55,9 +61,8 @@ dependencies {
     // Note: these dependencies have to be built yourself as they aren't published on a maven repo (yet)
     // However, they are completely optional - even for the build process so feel free to comment these lines out
 
-    // Specialised (lossful) performance mods
+    // Specialised (lossy) performance mods
     dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.1.0"
-    dependencyModsRuntime "de.geolykt:fast-galaxy-generation:0.1.0:remapped"
 
     // Profiler
     dependencyModsRuntime "de.geolykt:galimulator-profiler:0.0.1-SNAPSHOT"
@@ -70,6 +75,10 @@ remapJar {
     archiveClassifier = 'remapped'
     fromJar jar
     dependsOn jar
+
+    manifest {
+        attributes 'Multi-Release': true
+    }
 }
 
 runMods {
@@ -77,10 +86,47 @@ runMods {
     systemProperties.put("org.stianloader.sll.log.MIRROR_MAVEN_REQUESTS", true)
     systemProperties.put("org.stianloader.sll.log.level", "DEBUG")
     systemProperties.put("classloader.dump", true)
+    maxHeapSize = "16G"
 }
 
 build {
     dependsOn remapJar
+}
+
+// Multi-release jar shenanigans
+sourceSets {
+    java21 {
+        java {
+            compileClasspath += main.compileClasspath
+            compileClasspath += main.output
+            java.setSrcDirs(new java.util.ArrayList())
+            java.srcDir(getProjectDir().toPath().resolve('src/main/java21'))
+        }
+    }
+}
+
+compileJava21Java {
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    dependsOn compileJava
+
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
+    modularity.inferModulePath.set(false)
+}
+
+// Actual Multi-release jar generation
+jar {
+    dependsOn compileJava21Java
+
+    into('META-INF/versions/21') {
+        from sourceSets.java21.output
+    }
+
+    manifest {
+        attributes 'Multi-Release': true
+    }
 }
 
 publishing {

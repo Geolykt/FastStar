@@ -1,7 +1,35 @@
 {
-  "entrypoint": "de.geolykt.faststar.FastStar",
-  "name": "FastStar",
-  "author": "Geolykt",
-  "version": "2.0.0",
-  "mixinConfig": "fastmixins.json"
+    "entrypoint": "de.geolykt.faststar.FastStar",
+    "name": "FastStar",
+    "author": "Geolykt",
+    "version": "2.0.0",
+    "mixinConfig": "fastmixins.json",
+    "reversibleAccessSetter": "starstar.ras",
+    "externalDependencies" : {
+        "repositories" : [
+            {
+                 "name" : "stianloader",
+                 "url" : "https://stianloader.org/maven/",
+                 "mirrorable" : false
+             }, {
+                 "name" : "Central",
+                 "url" : "https://repo1.maven.org/maven2/",
+                 "mirrorOnly" : true
+             }, {
+                 "name" : "stianloader-central-mirror",
+                 "url" : "https://stianloader.org/central-mirror/",
+                 "mirrorable" : false
+             }
+        ],
+        "artifacts" : [
+            {
+                "group": "org.danilopianini",
+                "artifact": "java-quadtree",
+                "version": "0.2.0",
+                "exclusions": [
+                    "com.google.guava:guava"
+                ]
+            }
+        ]
+    }
 }

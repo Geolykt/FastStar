@@ -5,6 +5,9 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PersonMixins"
+    "PersonMixins",
+    "LandmarkManagerMixins",
+    "LandmarkMixins",
+    "QuadTreeMixins"
   ]
 }
