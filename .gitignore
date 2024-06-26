@@ -1,6 +1,11 @@
 build
 bin
+classes
+mods
+data
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
 .*
 !.gitignore
+*.launch
+
