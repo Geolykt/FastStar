@@ -4,6 +4,7 @@ plugins {
     id 'gsl-starplane' version '0.2.0-a20240624.1'
     //id 'gsl-starplane' version '0.2.0'
     id 'maven-publish'
+    id 'eclipse'
 }
 
 group 'de.geolykt'
@@ -12,7 +13,8 @@ version '2.0.0'
 // The following statement defines that Java 8 should be used (which is galimulator's runtime version),
 // however if you dare, you can bump the version - just beware that users may lack the knowledge in how to install and run
 // your mod in that case.
-targetCompatibility = compileJava.targetCompatibility = sourceCompatibility = compileJava.sourceCompatibility = '1.8'
+// FIXME Don't let this stand for all too long
+targetCompatibility = compileJava.targetCompatibility = sourceCompatibility = compileJava.sourceCompatibility = '11'
 
 repositories {
     mavenLocal()
@@ -44,8 +46,8 @@ dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
     compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240624.1:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
-    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240626"
-    compileOnly "org.stianloader:micromixin-annotations:0.5.0-a20240518"
+    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240627"
+    compileOnly "org.stianloader:micromixin-annotations:0.6.0-a20240618"
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
     compileOnlyApi "org.jetbrains:annotations:24.1.0"
 
@@ -54,6 +56,9 @@ dependencies {
     compileOnly ("org.danilopianini:java-quadtree:0.2.0") {
         exclude group: 'com.google.guava', module: 'guava'
     }
+
+    // https://mvnrepository.com/artifact/org.tinspin/tinspin-indexes
+    compileOnly 'org.tinspin:tinspin-indexes:2.1.3'
 
     // Library mods
     dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240624.1:remapped"
@@ -86,6 +91,7 @@ runMods {
     systemProperties.put("org.stianloader.sll.log.MIRROR_MAVEN_REQUESTS", true)
     systemProperties.put("org.stianloader.sll.log.level", "DEBUG")
     systemProperties.put("classloader.dump", true)
+    systemProperties.put("org.stianloader.micromixin.debug", false)
     maxHeapSize = "16G"
 }
 
@@ -153,4 +159,20 @@ publishing {
 
 genEclipseRuns {
     additionalRuntimeDependency("main", configurations["runtimeClasspath"])
+}
+
+// Unfortunately Eclipse does not have per-sourceset java versions so
+// of course it will have quite the issues when seeing java 9 classes in an otherwise
+// java 8 project. In the end I have opted in using the traditional maven style of dealing with the issue:
+// Ignoring the java 9 source set.
+eclipse {
+    classpath {
+        file {
+            whenMerged {
+                entries.removeIf { it.path == 'src/main/java21' }
+                entries.removeIf { it.path == project.file('build/classes/java/main').getAbsolutePath() }
+                entries.removeIf { it.path == project.file('build/classes/java/java21').getAbsolutePath() }
+            }
+        }
+    }
 }

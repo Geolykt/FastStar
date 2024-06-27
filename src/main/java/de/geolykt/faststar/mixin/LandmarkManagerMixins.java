@@ -23,7 +23,7 @@ import snoddasmannen.galimulator.Space;
 import snoddasmannen.galimulator.guides.LandmarkManager;
 import snoddasmannen.galimulator.guides.ppclass_0;
 
-@Mixin(LandmarkManager.class)
+@Mixin(value = LandmarkManager.class, priority = 3000)
 public class LandmarkManagerMixins {
     /**
      * As landmarks are stored in a O(n) collections [or a List in more plain terms],

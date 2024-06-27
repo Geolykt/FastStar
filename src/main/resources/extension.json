@@ -29,7 +29,8 @@
                 "exclusions": [
                     "com.google.guava:guava"
                 ]
-            }
+            },
+            "org.tinspin:tinspin-indexes:2.1.3"
         ]
     }
 }

@@ -11,7 +11,7 @@ import de.geolykt.starloader.api.empire.Star;
 
 import snoddasmannen.galimulator.guides.ppclass_0;
 
-@Mixin(value = ppclass_0.class)
+@Mixin(value = ppclass_0.class, priority = 3000)
 public class LandmarkMixins implements Landmark {
     @Shadow(aliases = "a")
     private snoddasmannen.galimulator.Star center;

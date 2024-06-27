@@ -5,9 +5,12 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PersonMixins",
+    "ActorMixins",
+    "ColliderWeaponMixins",
     "LandmarkManagerMixins",
     "LandmarkMixins",
-    "QuadTreeMixins"
+    "PersonMixins",
+    "QuadTreeMixins",
+    "SpaceMixins"
   ]
 }
