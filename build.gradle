@@ -14,7 +14,7 @@ version '2.0.0'
 // however if you dare, you can bump the version - just beware that users may lack the knowledge in how to install and run
 // your mod in that case.
 // FIXME Don't let this stand for all too long
-targetCompatibility = compileJava.targetCompatibility = sourceCompatibility = compileJava.sourceCompatibility = '11'
+targetCompatibility = compileJava.targetCompatibility = sourceCompatibility = compileJava.sourceCompatibility = '1.8'
 
 repositories {
     mavenLocal()
@@ -56,9 +56,6 @@ dependencies {
     compileOnly ("org.danilopianini:java-quadtree:0.2.0") {
         exclude group: 'com.google.guava', module: 'guava'
     }
-
-    // https://mvnrepository.com/artifact/org.tinspin/tinspin-indexes
-    compileOnly 'org.tinspin:tinspin-indexes:2.1.3'
 
     // Library mods
     dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240624.1:remapped"
