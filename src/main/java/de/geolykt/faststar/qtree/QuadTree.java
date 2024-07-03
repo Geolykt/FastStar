@@ -7,10 +7,11 @@ import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.util.vector.Vector2f;
+
+import com.badlogic.gdx.math.Vector2;
 
 public final class QuadTree<E> {
-    private static <T> void addElement(QuadTreeLeaf<T> leaf, T element, float x, float y, @NotNull Function<T, Vector2f> locationDescriptor) {
+    private static <T> void addElement(QuadTreeLeaf<T> leaf, T element, float x, float y, @NotNull Function<T, Vector2> locationDescriptor) {
         if (leaf.quadrantA == null && leaf.storedElement == null) {
             leaf.storedElement = element;
             return;
@@ -29,7 +30,7 @@ public final class QuadTree<E> {
             T oldElement = leaf.storedElement;
             assert oldElement != null; // The null check occurred previously already
 
-            Vector2f oldElementLoc = locationDescriptor.apply(oldElement);
+            Vector2 oldElementLoc = locationDescriptor.apply(oldElement);
             float oldElementX = oldElementLoc.x;
             float oldElementY = oldElementLoc.y;
 
@@ -75,13 +76,13 @@ public final class QuadTree<E> {
     @Nullable
     private static <T> T query1nnRecurse(@Nullable T defaultValue, float x, float y, float minDistSq,
             float @NotNull[] maxDistSq, @NotNull QuadTreeLeaf<T> leaf,
-            @NotNull Function<T, Vector2f> locationDescriptor) {
+            @NotNull Function<T, Vector2> locationDescriptor) {
 
         {
             @Nullable
             T element = leaf.storedElement;
             if ((element = leaf.storedElement) != null) {
-                Vector2f location = locationDescriptor.apply(element);
+                Vector2 location = locationDescriptor.apply(element);
                 x -= location.x;
                 y -= location.y;
                 float distSq = x * x + y * y;
@@ -130,7 +131,7 @@ public final class QuadTree<E> {
     }
 
     @NotNull
-    private final Function<E, Vector2f> locationDescriptor;
+    private final Function<E, Vector2> locationDescriptor;
     @NotNull
     private QuadTreeLeaf<E> rootLeafA;
     @NotNull
@@ -140,7 +141,7 @@ public final class QuadTree<E> {
     @NotNull
     private QuadTreeLeaf<E> rootLeafD;
 
-    public QuadTree(float initialRadius, @NotNull Function<E, Vector2f> locationDescriptor) {
+    public QuadTree(float initialRadius, @NotNull Function<E, Vector2> locationDescriptor) {
         this.rootLeafA = new QuadTreeLeaf<>(0, 0, initialRadius, initialRadius);
         this.rootLeafB = new QuadTreeLeaf<>(0, -initialRadius, initialRadius, 0);
         this.rootLeafC = new QuadTreeLeaf<>(-initialRadius, 0, 0, initialRadius);
@@ -151,7 +152,7 @@ public final class QuadTree<E> {
     public void addElement(@NotNull E element) {
         final float x, y;
         {
-            final Vector2f v = this.locationDescriptor.apply(element);
+            final Vector2 v = this.locationDescriptor.apply(element);
             x = v.x;
             y = v.y;
         }
@@ -239,7 +240,7 @@ public final class QuadTree<E> {
                 return;
             } else {
                 out.add(element);
-                Vector2f pos = this.locationDescriptor.apply(element);
+                Vector2 pos = this.locationDescriptor.apply(element);
                 float dx = pos.x - x;
                 float dy = pos.y - y;
                 minDistance = dx * dx + dy * dy;
@@ -267,7 +268,7 @@ public final class QuadTree<E> {
                         return false;
                     } else {
                         this.nextElement = element;
-                        Vector2f pos = QuadTree.this.locationDescriptor.apply(element);
+                        Vector2 pos = QuadTree.this.locationDescriptor.apply(element);
                         float dx = pos.x - x;
                         float dy = pos.y - y;
                         this.minDistance = dx * dx + dy * dy;

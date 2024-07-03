@@ -4,8 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.util.vector.Vector2f;
 import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.math.Vector2;
 
 import de.geolykt.faststar.qtree.QuadTree;
 import de.geolykt.starloader.api.Galimulator;
@@ -18,8 +19,8 @@ public class SpatialQuery {
 
     private static QuadTree<Star> stars;
     private static QuadTree<Actor> actors;
-    private static final Vector2f VECTOR_TEMP_DRAW = new Vector2f();
-    private static final Vector2f VECTOR_TEMP_TICK = new Vector2f();
+    private static final Vector2 VECTOR_TEMP_DRAW = new Vector2();
+    private static final Vector2 VECTOR_TEMP_TICK = new Vector2();
 
     public static Actor getNearestActor(float x, float y, @NotNull Actor witness) {
         Iterator<Actor> it = SpatialQuery.actors.queryKnn(x, y);
