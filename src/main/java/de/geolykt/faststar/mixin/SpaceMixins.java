@@ -41,7 +41,7 @@ public class SpaceMixins {
     }
 
     @Inject(
-        method = "tick()I",
+        method = "Lsnoddasmannen/galimulator/Space; tick()I",
         at = @At(value = "FIELD", desc = @Desc(value = "actors", ret = Vector.class)),
         slice = @Slice(
             from = @At(value = "INVOKE", desc = @Desc(owner = snoddasmannen.galimulator.Alliance.class, value = "kill")),

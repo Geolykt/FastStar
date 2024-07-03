@@ -1,8 +1,8 @@
 tiny	2	0	intermediary	named
 c	snoddasmannen/galimulator/class_29	snoddasmannen/galimulator/QuadTreePair
+	f	Ljava/util/Vector;	a	parentStars
 	m	()Ljava/util/Vector;	a	getAverageLocations
 		c	Obtain the average positions of the pair;\nThe X and Y axes should be self-explainatory, the Z axis is the radius or maximum distance a star has from the cluster.\n\nThe returned Vector has two Vector3 objects for the parent and child QuadTree star cluster,\nthe parent generally being the first entry but this method makes no guarantees that this behaviour\nalways applies.
-	f	Ljava/util/Vector;	a	parentStars
 	m	(Ljava/util/Vector;Ljava/util/Vector;)V	<init>	<init>
 		p	1		parentStars
 		p	2		childStars
@@ -28,65 +28,54 @@ c	snoddasmannen/galimulator/Quest$Gift	snoddasmannen/galimulator/Quest$Gift
 c	snoddasmannen/galimulator/interface_10	snoddasmannen/galimulator/__UnusedInterface0
 	m	()V	a	__unknown0
 	m	()V	b	__unusedMethod__onGameOver
-	m	(I)V	a	__unknown5
-		p	1		arg
 	m	(Ljava/lang/String;)V	a	__unknown7
+		p	1		arg
+	m	(I)V	a	__unknown5
 		p	1		arg
 	m	()V	e	__unknown6
 	m	()V	f	__unknown8
 	m	()V	c	__unknown3
+	m	()V	d	__unknown4
 	m	(Lsnoddasmannen/galimulator/Empire;)V	a	__unusedMethod__onEmpireDeath
 		p	1		arg
-	m	()V	d	__unknown4
-c	snoddasmannen/galimulator/PersonSpecial	snoddasmannen/galimulator/PersonSpecial
-	m	()F	c	getBirthFrequency
-	f	Lcom/badlogic/gdx/graphics/g2d/TextureRegion;	tr	icon
-	m	(Lsnoddasmannen/galimulator/Person$PersonAttribute;)F	a	getAttributeImpact
-		p	1		attribute
-	m	(Lsnoddasmannen/galimulator/Person;)V	b	onRecieveSpecial
-	m	()Lsnoddasmannen/galimulator/PersonSpecial;	b	getBirthSpecial
-	m	()Ljava/lang/String;	f	getDisplayName
-	m	()Lcom/badlogic/gdx/graphics/g2d/TextureRegion;	get_tr	getIcon
-	m	(Lsnoddasmannen/galimulator/Person;Lsnoddasmannen/galimulator/Job;)F	a	getJobDesireFactor
-	m	(Lsnoddasmannen/galimulator/Employer;)V	a	showIconOnBoard
-		p	1		location
-	m	(Lsnoddasmannen/galimulator/PersonSpecial;)Z	a	isIncompatible
-		p	1		otherSpecial
-	f	[Lsnoddasmannen/galimulator/PersonSpecial;	u	valuesCache
-	m	()Z	d	canObtainOnBirth
 c	snoddasmannen/galimulator/ui/Widget	snoddasmannen/galimulator/ui/Widget
 	m	(Lsnoddasmannen/galimulator/GalColor;)V	drawBackground	drawBackground
 		p	1		color
 	f	Lsnoddasmannen/galimulator/ui/Widget$WIDGET_ID;	n	widgetId
-	m	(D)V	b	setY
-		p	1		y
 	m	()V	D	focusWidget
 		c	Note: Only works for Widgets added unbuffered or BufferedWidgetWrappers.
+	m	(D)V	b	setY
+		p	1		y
 	m	(Lsnoddasmannen/galimulator/ui/Widget$WIDGET_MESSAGE;)V	propagateMessageLocally	propagateMessageLocally
 		p	1		message
 	m	(Lsnoddasmannen/galimulator/ui/WidgetLayout;)V	a	setLayout
 		p	1		layout
 	m	(Lsnoddasmannen/galimulator/ui/Widget;)V	b	removeChild
 		p	1		child
-	f	D	f	y
 	f	Ljava/util/Vector;	p	messageRecievers
+	f	D	f	y
 	m	()Ljava/lang/String;	get_m	toastMessage
+	m	(FFFF)V	a	onWidgetPan
+		p	4	float3	pointerY
+		p	2	float1	deltaY
+		p	3	float2	pointerX
+		p	1	float0	deltaX
 	m	(Lsnoddasmannen/galimulator/WidgetMessageReciever;)V	a	addMessageReciever
 		p	1		reciever
+	m	(Ljava/lang/String;)V	c	setToastMessage
+		p	1		message
 	m	(FFZ)V	hover	hover
 		p	1		x
 		p	2		y
-	m	(Ljava/lang/String;)V	c	setToastMessage
-		p	1		message
 	m	()Lsnoddasmannen/galimulator/ui/Widget$WIDGET_ID;	get_n	getWidgetId
+	f	I	v	__unusedField0
 	m	(D)V	a	setX
 		p	1		x
-	f	I	v	__unusedField0
 	f	F	t	verticalScroll
 	m	(Lsnoddasmannen/galimulator/ui/Widget$WIDGET_ID;)V	a	setWidgetId
 		p	1		id
-	m	()I	u	getChildCount
 	m	(Lcom/badlogic/gdx/graphics/Camera;)V	a	setCamera
+	m	()I	u	getChildCount
 	m	(Lsnoddasmannen/galimulator/GalColor;)V	setHeaderColor	setHeaderColor
 		p	1		color
 	f	Ljava/lang/String;	m	getToastMessage
@@ -99,7 +88,22 @@ c	snoddasmannen/galimulator/ui/Widget	snoddasmannen/galimulator/ui/Widget
 	f	Z	s	dirty
 	m	(Ljava/lang/String;)V	setHeaderTitle	setHeaderTitle
 		p	1		title
-c	snoddasmannen/galimulator/diplomacy/class_0	snoddasmannen/galimulator/diplomacy/MergeOfferProposal
+c	snoddasmannen/galimulator/PersonSpecial	snoddasmannen/galimulator/PersonSpecial
+	m	()F	c	getBirthFrequency
+	m	(Lsnoddasmannen/galimulator/Person$PersonAttribute;)F	a	getAttributeImpact
+		p	1		attribute
+	f	Lcom/badlogic/gdx/graphics/g2d/TextureRegion;	tr	icon
+	m	(Lsnoddasmannen/galimulator/Person;)V	b	onRecieveSpecial
+	m	()Lsnoddasmannen/galimulator/PersonSpecial;	b	getBirthSpecial
+	m	()Lcom/badlogic/gdx/graphics/g2d/TextureRegion;	get_tr	getIcon
+	m	()Ljava/lang/String;	f	getDisplayName
+	m	(Lsnoddasmannen/galimulator/Person;Lsnoddasmannen/galimulator/Job;)F	a	getJobDesireFactor
+	m	(Lsnoddasmannen/galimulator/Employer;)V	a	showIconOnBoard
+		p	1		location
+	f	[Lsnoddasmannen/galimulator/PersonSpecial;	u	valuesCache
+	m	(Lsnoddasmannen/galimulator/PersonSpecial;)Z	a	isIncompatible
+		p	1		otherSpecial
+	m	()Z	d	canObtainOnBirth
 c	snoddasmannen/galimulator/Player	snoddasmannen/galimulator/Player
 	m	()V	q	onTakeControl
 	m	()V	r	onGameOver
@@ -109,33 +113,33 @@ c	snoddasmannen/galimulator/Player	snoddasmannen/galimulator/Player
 	m	(Lsnoddasmannen/galimulator/Empire;)V	b	setEmpire
 	m	(Lsnoddasmannen/galimulator/Empire;)V	h	removeWarScore
 		p	1		enenmy
-	m	(Lsnoddasmannen/galimulator/Empire;)V	f	incrementLatestWarScore
-		p	1		enemy
 	m	(Z)V	a	setAutoBuildShips
 		p	1		flag
+	m	(Lsnoddasmannen/galimulator/Empire;)V	f	incrementLatestWarScore
+		p	1		enemy
 	m	(Lsnoddasmannen/galimulator/Empire;)V	g	decrementLatestWarScore
 		p	1		enemy
+	m	()I	n	getFreeSpies
 	m	(Lsnoddasmannen/galimulator/Empire;)Lsnoddasmannen/galimulator/Spy;	j	getSpyForTarget
 		p	1		target
-	m	()I	n	getFreeSpies
-	m	()Z	b	isEmperorMode
 	m	(Lsnoddasmannen/galimulator/Empire;)V	k	setSpyTarget
 		p	1		targetEmpire
+	m	()Z	b	isEmperorMode
 	m	()Z	f	isDangerousStress
+	m	()Z	g	isCriticalStress
 	m	(Lsnoddasmannen/galimulator/Empire;)F	d	getPlayerDefenseBonus
 		p	1		enemy
-	m	()Z	g	isCriticalStress
 	m	()V	d	tick
+	m	()V	e	reform
 	m	(Lsnoddasmannen/galimulator/Empire;)I	e	getLatestWarScore
 		p	1		enemy
-	m	()V	e	reform
 	m	(Lsnoddasmannen/galimulator/Empire;)F	c	getFocusBonous
 		p	1		enemy
 	m	(I)V	a	addExtraPoints
 		p	1		points
 	m	(Lsnoddasmannen/galimulator/Empire;)Z	a	isYearningForPeace
 		c	Always returns false
-c	snoddasmannen/galimulator/diplomacy/class_1	snoddasmannen/galimulator/diplomacy/DiplomaticAction
+c	snoddasmannen/galimulator/diplomacy/class_0	snoddasmannen/galimulator/diplomacy/MergeOfferProposal
 c	snoddasmannen/galimulator/Star	snoddasmannen/galimulator/Star
 	m	(Lsnoddasmannen/galimulator/Star$PolygonType;)V	a	setStarRegionTexture
 		p	1		texture
@@ -150,71 +154,74 @@ c	snoddasmannen/galimulator/Star	snoddasmannen/galimulator/Star
 	f	[F	t	starRegionVertices
 	m	()V	y	drawStarBorders
 	m	(Lsnoddasmannen/galimulator/Star;)V	h	clearBorderVerticesCache
-	m	()Lsnoddasmannen/galimulator/Culture;	M	getCulture
 	m	(Ljava/util/List;)V	a	calculateVoronoiVertices
 		p	1		voronoiEdges
+	m	()Lsnoddasmannen/galimulator/Culture;	M	getCulture
 	m	(Lsnoddasmannen/galimulator/Star;Lsnoddasmannen/galimulator/Star;)D	b	distanceBetween
 	m	()Ljava/util/Vector;	l	getForeignCultureConnections
 		c	Obtains the stars which are the starlane neighbours of this stars and also have a different culture.\nIf this star is disrupted, an empty vector will be returned instead.
 	m	(FF)F	b	distanceToSq
+c	snoddasmannen/galimulator/diplomacy/class_1	snoddasmannen/galimulator/diplomacy/DiplomaticAction
 c	snoddasmannen/galimulator/Space	snoddasmannen/galimulator/Space
 	m	(Lcom/badlogic/gdx/math/Rectangle;)Ljava/util/Vector;	a	getStarsWithin
 		p	0		aabb
+	f	Z	aB	__unusedField1
 	m	(Lsnoddasmannen/galimulator/RewardData;)V	b	__unusedMethod__setReward
 		c	This method is unused as it is related to the feature where you can unlock actors\nby watching an advert, which only exists on Android releases of galimulator. As such,\nthis functionality is unused on desktop releases of the game.
-	f	Z	aB	__unusedField1
 	m	(FFLsnoddasmannen/galimulator/Empire;FLjava/util/Vector;)Lsnoddasmannen/galimulator/actors/Actor;	a	findNearestEnemy
-		p	1	float1	y
-		p	2	empire	ownerEmpire
-		p	0	float0	x
-		p	3	float3	searchRadius
-		p	4	vector	pool
-	f	Lsnoddasmannen/galimulator/ui/class_5;	B	bulletinLog
+		p	1		y
+		p	2		ownerEmpire
+		p	0		x
+		p	3		searchRadius
+		p	4		pool
 	m	()V	ad	showTutorialSelection
+	f	Lsnoddasmannen/galimulator/ui/class_5;	B	bulletinLog
 	m	(Lsnoddasmannen/galimulator/Star;)V	e	removeDisruption
 	f	Ljava/util/concurrent/locks/ReentrantLock;	F	WIDGET_MANIPULATION_LOCK
-	m	(Lsnoddasmannen/galimulator/Family;)V	c	removeFamily
 	m	(Lcom/badlogic/gdx/math/Vector2;)Lsnoddasmannen/galimulator/actors/Actor;	a	getNearestMonster
 		p	0		position
-	m	(Lsnoddasmannen/galimulator/corporation/Corporation;)V	a	registerCorporation
+	m	(Lsnoddasmannen/galimulator/Family;)V	c	removeFamily
 	m	(Lcom/badlogic/gdx/math/Vector2;F)Ljava/util/Vector;	a	getPeopleNear
 		p	0		location
 		p	1		distanceSq
+	m	(Lsnoddasmannen/galimulator/corporation/Corporation;)V	a	registerCorporation
 	f	Ljava/util/Vector;	w	__unusedField0
 	m	(Lsnoddasmannen/galimulator/Empire;)V	f	onEmpireDeath
-	m	(Lsnoddasmannen/galimulator/actors/Totem$TotemType;)Lsnoddasmannen/galimulator/actors/Totem;	a	getTotem
 	m	(I)Ljava/util/Vector;	l	getPeopleAtJobLevel
 		p	0		jobLevel
-	f	Z	at	__unusedField2
+	m	(Lsnoddasmannen/galimulator/actors/Totem$TotemType;)Lsnoddasmannen/galimulator/actors/Totem;	a	getTotem
 	m	()V	aP	sortFamilies
+	f	Z	at	__unusedField2
 	m	()Lsnoddasmannen/galimulator/Person;	aN	getRandomPerson
 	m	()V	am	__nopMethod3
-	m	(FFLsnoddasmannen/galimulator/Empire;F)Lsnoddasmannen/galimulator/actors/Actor;	findNearestActor	findNearestEnemy
-		p	1	float1	y
-		p	0	float0	x
-		p	3	float3	searchRadius
-		p	2	empire	ownerEmpire
 	m	(Lsnoddasmannen/galimulator/Player;)V	a	showPlayerStatusWidget
-	m	(Lsnoddasmannen/galimulator/Empire;)Z	a	a
+	m	(FFLsnoddasmannen/galimulator/Empire;F)Lsnoddasmannen/galimulator/actors/Actor;	findNearestActor	findNearestEnemy
+		p	1		y
+		p	0		x
+		p	3		searchRadius
+		p	2		ownerEmpire
+	m	(Lsnoddasmannen/galimulator/Empire;)Z	a	canControlEmpireShips
 		c	Potentially broken. Beware
 	f	Lsnoddasmannen/galimulator/ui/BufferedWidgetWrapper;	aa	bufferedToastWidget
+	m	()Ljava/util/Vector;	get_x	getAuxiliaryListeners
 	m	()V	j	__nopMethod4
 	m	(I)Lsnoddasmannen/galimulator/Culture;	c	lookupCulture
 		p	0		cultureId
 	f	Ljava/util/Vector;	p	families
 	m	()Ljava/util/Vector;	aO	getFamilies
+	f	Lsnoddasmannen/galimulator/RewardData;	aE	__unusedField0
+	m	(Lsnoddasmannen/galimulator/Star;)V	d	addDisruption
 	m	(Lsnoddasmannen/galimulator/Star;)Z	h	syncDisruptedFlag
 		c	Synchronize the Star's disrupted flag with the list of disrupted stars within the Space class.\nMore specifically, the flag will be set to true if the star is located in the list and false otherwise.
-	m	(Lsnoddasmannen/galimulator/Star;)V	d	addDisruption
-	f	Lsnoddasmannen/galimulator/RewardData;	aE	__unusedField0
 	f	Ljava/util/Vector;	l	totems
-	m	(Lsnoddasmannen/galimulator/Empire;)Ljava/util/Vector;	g	getStarsOf
 	m	()V	aB	__nopMethod0
+	m	(Lsnoddasmannen/galimulator/Empire;)Ljava/util/Vector;	g	getStarsOf
 	m	(Ljava/util/ArrayList;Lsnoddasmannen/galimulator/Star;)V	a	has
 		p	1		star
 		p	0		stars
-	m	()I	get_aJ	getStepTargetYear
+	f	Ljava/util/Vector;	x	auxiliaryListeners
 	f	I	aJ	stepTarget
+	m	()I	get_aJ	getStepTargetYear
 	f	Ljava/util/Random;	ab	monsterSpawnerRandom
 	m	(Lsnoddasmannen/galimulator/Tutorial;)V	a	openTutorial
 		p	0		tutorial
@@ -227,72 +234,72 @@ c	snoddasmannen/galimulator/Space	snoddasmannen/galimulator/Space
 		c	This method is unused as it is related to the feature where you can unlock actors\nby watching an advert, which only exists on Android releases of galimulator. As such,\nthis functionality is unused on desktop releases of the game.
 	m	(I)V	a	__unusedMethod0
 		p	0		__unknownArg
-	m	(FFLsnoddasmannen/galimulator/Empire;F)Lsnoddasmannen/galimulator/actors/Actor;	b	findNearestEnemyFast
-		p	1	float1	y
-		p	0	float0	x
-		p	3	float3	searchRadius
-		p	2	empire	ownerEmpire
-	m	(Lsnoddasmannen/galimulator/Alliance;)V	a	registerAlliance
 	m	(Lsnoddasmannen/galimulator/ui/Widget;)V	d	focusWidget
 		c	Note: Only works for Widgets added unbuffered or BufferedWidgetWrappers.
-	f	Ljava/util/Vector;	d	displayedItems
+	m	(Lsnoddasmannen/galimulator/Alliance;)V	a	registerAlliance
+	m	(FFLsnoddasmannen/galimulator/Empire;F)Lsnoddasmannen/galimulator/actors/Actor;	b	findNearestEnemyFast
+		p	1		y
+		p	0		x
+		p	3		searchRadius
+		p	2		ownerEmpire
 	m	(I)Lsnoddasmannen/galimulator/ui/Widget;	i	displayAd
+	f	Ljava/util/Vector;	d	displayedItems
 	m	()Ljava/util/Vector;	e	getSaveNames
 	m	(Lsnoddasmannen/galimulator/Star;)Z	c	isDisrupted
-	m	(Lsnoddasmannen/galimulator/Culture;)V	a	registerCulture
 	f	Z	E	untickedGalaxy
 		c	Denotes whether the current galaxy has been created or <b>loaded</b> since the last tick.
-	f	Ljava/util/ArrayList;	j	shownItems
+	m	(Lsnoddasmannen/galimulator/Culture;)V	a	registerCulture
 	m	()Lsnoddasmannen/galimulator/RewardData;	k	__unusedMethod__generateReward
+	f	Ljava/util/ArrayList;	j	shownItems
 	f	I	av	__unusedField4
 	m	()V	aA	__nopMethod2
 	m	(Lsnoddasmannen/galimulator/Quest;)V	b	unregisterQuest
 	m	(Lsnoddasmannen/galimulator/artifacts/Artifact;)V	b	unregisterArtifact
 	m	(I)V	h	stepMilliYears
 	m	(FFLsnoddasmannen/galimulator/actors/Actor;F)Lsnoddasmannen/galimulator/actors/Actor;	b	getNearestEnemy
-		p	2	actor	witness
-		p	3	float3	searchRadius
-		p	0	float0	originX
-		p	1	float1	originY
+		p	2		witness
+		p	3		searchRadius
+		p	0		originX
+		p	1		originY
 	f	Lsnoddasmannen/galimulator/ui/InformationWidget;	Z	unbufferedToastWidget
+	m	(I)Lsnoddasmannen/galimulator/artifacts/Artifact;	f	lookupArtifact
+		p	0		artifactId
 	m	(Ljava/util/ArrayList;Lsnoddasmannen/galimulator/Culture;)Z	a	has
 		p	1		culture
 		p	0		cultures
-	m	(I)Lsnoddasmannen/galimulator/artifacts/Artifact;	f	lookupArtifact
-		p	0		artifactId
 	f	Ljava/util/ArrayList;	r	cultures
 	m	(Lsnoddasmannen/galimulator/Alliance;)V	b	unregisterAlliance
 	m	()Z	h	canSpawnEmpires
-	m	()Lsnoddasmannen/galimulator/Star;	F	getRandomStar
 	f	Lsnoddasmannen/galimulator/RewardData;	aG	__unusedField__reward
 		c	This method is unused as it is related to the feature where you can unlock actors\nby watching an advert, which only exists on Android releases of galimulator. As such,\nthis functionality is unused on desktop releases of the game.
-	m	(Lsnoddasmannen/galimulator/Culture;)V	b	unregisterCulture
-	f	Z	aC	__unusedField0
+	m	()Lsnoddasmannen/galimulator/Star;	F	getRandomStar
 	m	(Lsnoddasmannen/galimulator/RewardData;)V	a	__nopMethod0
 		p	0		arg
+	f	Z	aC	__unusedField0
+	m	(Lsnoddasmannen/galimulator/Culture;)V	b	unregisterCulture
 	m	()V	b	__unusedMethod0
 	m	()V	aD	__nopMethod1
 	m	()Lsnoddasmannen/galimulator/actors/Actor;	f	getHighestXPActor
 	f	Ljava/util/Vector;	Y	newActors
-	m	(FFI)Ljava/util/ArrayList;	a	getStarsNear
-		p	2	integer	outputStarCount
-		p	0	float0	x
-		p	1	float1	y
-	m	()V	av	spawnSpaceOddity
-		c	Will not spawn any space oddities or monsters if a space oddity already exists.\n\n@see Actor#isMonster()
 	m	(I)Lsnoddasmannen/galimulator/actors/Actor;	b	lookupActor
 		p	0		actorId
+	m	()V	av	spawnSpaceOddity
+		c	Will not spawn any space oddities or monsters if a space oddity already exists.\n\n@see Actor#isMonster()
+	m	(FFI)Ljava/util/ArrayList;	a	getStarsNear
+		p	2		outputStarCount
+		p	0		x
+		p	1		y
+	m	()Ljava/util/ArrayList;	get_r	getCultures
 	m	(FFF)Ljava/util/Vector;	a	getStarsWithin
 		c	Obtains all stars within a square denoted by the parameters centerX and centerY. The square has a radius\n(that is the minimal distance from center to an edge of the square) of squareRadius.
 		p	0		centerX
 		p	1		centerY
 		p	2		squareRadius
-	m	()Ljava/util/ArrayList;	get_r	getCultures
 	m	(Lsnoddasmannen/galimulator/interface_10;)V	a	__unusedMethod0
-	m	(I)V	k	__nopMethod4
-		p	0		arg
 	m	(I)Lsnoddasmannen/galimulator/Fleet;	d	lookupFleet
 		p	0		fleetId
+	m	(I)V	k	__nopMethod4
+		p	0		arg
 	m	(Lsnoddasmannen/galimulator/Family;)V	b	addFamily
 	f	Z	au	__unusedField3
 	m	()F	aw	getResearchMultiplier
@@ -307,10 +314,10 @@ c	snoddasmannen/galimulator/Empire	snoddasmannen/galimulator/Empire
 	m	()V	B	acknowledgeInboundDiplomaticAction
 	m	(Lsnoddasmannen/galimulator/Empire;)V	r	mergeEmpire
 		p	1		mergeSource
-	m	()Lsnoddasmannen/galimulator/diplomacy/class_1;	get_m	getCurrentInboundDiplomaticAction
 	m	(Lsnoddasmannen/galimulator/Star;Lsnoddasmannen/galimulator/Empire;)V	b	looseStar
 		p	1		lostStar
 		p	2		enemy
+	m	()Lsnoddasmannen/galimulator/diplomacy/class_1;	get_m	getCurrentInboundDiplomaticAction
 	f	I	n	lastInboundDiplomaticAction
 	m	()V	aa	researchAdvance
 	m	(Lsnoddasmannen/galimulator/Empire;)Z	p	canAbsorb
@@ -322,35 +329,25 @@ c	snoddasmannen/galimulator/Empire	snoddasmannen/galimulator/Empire
 	m	(Lsnoddasmannen/galimulator/diplomacy/class_1;)V	a	setInboundDiplomaticAction
 	m	()Z	ak	isJoiningAlliance
 	m	(I)V	b	setTechLevel
-	m	()F	aY	getTechBonusEagerly
 	m	(Lsnoddasmannen/galimulator/Empire;)F	c	c
 		p	1		enemy
+	m	()F	aY	getTechBonusEagerly
 	m	()I	get_n	getLastInboundDiplomaticActionTime
 	m	(Lsnoddasmannen/galimulator/Empire;)Z	o	canBeAbsorbed
 	m	()V	ab	degenerate
-	m	()Z	Y	canResearch
-	f	Lsnoddasmannen/galimulator/diplomacy/class_1;	m	inboundDiplomaticAction
 	m	()V	aT	killEmpire
-	m	()I	ai	getAliveTime
+	f	Lsnoddasmannen/galimulator/diplomacy/class_1;	m	inboundDiplomaticAction
+	m	()Z	Y	canResearch
 	m	(Lsnoddasmannen/galimulator/EmpireState;)V	a	setState
-c	snoddasmannen/galimulator/Culture	snoddasmannen/galimulator/Culture
-	m	(Lsnoddasmannen/galimulator/Culture;Lsnoddasmannen/galimulator/Culture;)Lsnoddasmannen/galimulator/Culture;	a	culturalClash
+	m	()I	ai	getAliveTime
+c	snoddasmannen/galimulator/AuxiliaryListener	snoddasmannen/galimulator/AuxiliaryListener
+	m	()V	b	onDispose
 c	snoddasmannen/galimulator/FlagItem	snoddasmannen/galimulator/FlagItem
 c	snoddasmannen/galimulator/FlagItem$BuiltinSymbols	snoddasmannen/galimulator/FlagItem$BuiltinSymbols
 	m	()Lsnoddasmannen/galimulator/FlagItem$BuiltinSymbols;	a	getRandomBasicSymbol
 	m	()Lsnoddasmannen/galimulator/FlagItem$BuiltinSymbols;	b	getRandomBuiltin
-c	snoddasmannen/galimulator/Alliance	snoddasmannen/galimulator/Alliance
-	m	()F	i	getAge
-	m	(Ljava/lang/String;)V	a	setName
-	m	()V	b	tick
-	m	(Lsnoddasmannen/galimulator/Empire;)V	b	removeMember
-	m	(Lsnoddasmannen/galimulator/Empire;)V	a	addMember
-	m	()V	d	kill
-	m	()Ljava/lang/String;	k	toColoredName
-	m	(Lsnoddasmannen/galimulator/Empire;)Z	d	canAccept
-	m	()Lsnoddasmannen/galimulator/GalColor;	g	getSemiOpaqueColor
-	m	()I	a	getTotalStarCount
-	m	(Lsnoddasmannen/galimulator/Empire;)Z	c	hasMember
+c	snoddasmannen/galimulator/Culture	snoddasmannen/galimulator/Culture
+	m	(Lsnoddasmannen/galimulator/Culture;Lsnoddasmannen/galimulator/Culture;)Lsnoddasmannen/galimulator/Culture;	a	culturalClash
 c	snoddasmannen/galimulator/Job	snoddasmannen/galimulator/Job
 	m	()V	d	removeHolder
 	m	()I	h	getJobLevel
@@ -359,19 +356,39 @@ c	snoddasmannen/galimulator/Job	snoddasmannen/galimulator/Job
 	m	()Ljava/lang/String;	i	getDisplayName
 	m	(Ljava/lang/String;)V	b	setAlias
 	m	()Z	o	isVacancyMarked
-	f	I	c	lastVacancy
 	m	()V	p	markVacancy
+	f	I	c	lastVacancy
 	m	(Lsnoddasmannen/galimulator/Person;)V	b	setHolder
-c	snoddasmannen/galimulator/WidgetMessageReciever	snoddasmannen/galimulator/WidgetMessageReciever
-	m	(Lsnoddasmannen/galimulator/ui/Widget$WIDGET_MESSAGE;)V	recieveMessage	recieveMessage
-		p	1		message
+c	snoddasmannen/galimulator/Alliance	snoddasmannen/galimulator/Alliance
+	m	()F	i	getAge
+	m	(Ljava/lang/String;)V	a	setName
+	m	()V	b	tick
+	m	(Lsnoddasmannen/galimulator/Empire;)V	b	removeMember
+	m	()V	d	kill
+	m	(Lsnoddasmannen/galimulator/Empire;)V	a	addMember
+	m	(Lsnoddasmannen/galimulator/Empire;)Z	d	canAccept
+	m	()Ljava/lang/String;	k	toColoredName
+	m	(Lsnoddasmannen/galimulator/Empire;)Z	c	hasMember
+	m	()I	a	getTotalStarCount
+	m	()Lsnoddasmannen/galimulator/GalColor;	g	getSemiOpaqueColor
 c	snoddasmannen/galimulator/Spy	snoddasmannen/galimulator/Spy
 	m	()V	b	tick
 	m	(Lsnoddasmannen/galimulator/Empire;)V	a	setTarget
+c	snoddasmannen/galimulator/WidgetMessageReciever	snoddasmannen/galimulator/WidgetMessageReciever
+	m	(Lsnoddasmannen/galimulator/ui/Widget$WIDGET_MESSAGE;)V	recieveMessage	recieveMessage
+		p	1		message
+c	snoddasmannen/galimulator/GalimulatorGestureListener	snoddasmannen/galimulator/GalimulatorGestureListener
+	f	Z	f	draggingSelectedActor
+	m	(FFFF)Z	pan	pan
+		p	3	float2	deltaX
+		p	4	float3	deltaY
+		p	1	float0	x
+		p	2	float1	y
+	f	Lsnoddasmannen/galimulator/actors/Actor;	e	selectedActor
 c	snoddasmannen/galimulator/weapons/interface_0	snoddasmannen/galimulator/weapons/WeaponListener
 	m	(FF)V	onFiredAt	onFiredAt
-		p	2	float2	y
-		p	1	float1	x
+		p	2		y
+		p	1		x
 c	snoddasmannen/galimulator/ui/class_85	snoddasmannen/galimulator/ui/class_85
 	f	I	a	width
 	f	I	b	height
@@ -383,28 +400,28 @@ c	snoddasmannen/galimulator/Person	snoddasmannen/galimulator/Person
 	m	()Ljava/lang/String;	e	getDisplayAge
 	m	(Lsnoddasmannen/galimulator/PersonSpecial;)Z	a	hasSpecial
 		p	1		special
+	f	[F	d	attributeValues
 	m	(Lsnoddasmannen/galimulator/PersonSpecial;)Z	c	addSpecial
 		p	1		special
-	f	[F	d	attributeValues
 	f	Ljava/text/DecimalFormat;	c	formatterLarge
 	m	(Lsnoddasmannen/galimulator/Person;)V	c	setParent
 		p	1		parent1
 	m	(Lsnoddasmannen/galimulator/Job;)I	b	getJobDesire
-		p	1	job	candidateJob
+		p	1		candidateJob
 	m	(Lsnoddasmannen/galimulator/Person$PersonAttribute;)I	a	getNaturalAttributeValue
+		p	1		attribute
+	m	(Lsnoddasmannen/galimulator/Person$PersonAttribute;)I	c	getAttributeValue
 		p	1		attribute
 	m	(Ljava/lang/String;)V	b	kill
 		p	1		cause
-	m	(Lsnoddasmannen/galimulator/Person$PersonAttribute;)I	c	getAttributeValue
-		p	1		attribute
 	m	()I	f	getAge
 	m	()Lsnoddasmannen/galimulator/PersonSpecial;	u	getRandomSpecial
 	m	(Lsnoddasmannen/galimulator/Job;)V	c	setJob
 		p	1		newJob
 	m	(Lsnoddasmannen/galimulator/Lazy$PersonLazy;)V	a	setGrandparent
 		p	1		grandparent
-	f	I	a	rebelCount
 	m	(Lsnoddasmannen/galimulator/conspiracies/Conspiracy;)V	a	setConspiracy
+	f	I	a	rebelCount
 	m	()Ljava/lang/String;	b	getDisplayPrestige
 	m	(Lsnoddasmannen/galimulator/PersonSpecial;)Z	d	canObtainSpecial
 		p	1		special
@@ -415,11 +432,11 @@ c	snoddasmannen/galimulator/Person	snoddasmannen/galimulator/Person
 		p	1		attribute
 	m	(Lsnoddasmannen/galimulator/Person;)V	d	setParent2
 		p	1		parent2
-	m	(F)V	a	addPrestige
-		p	1	float0	prestige
-	f	Ljava/text/DecimalFormat;	b	formatterSmaller
 	m	(Lsnoddasmannen/galimulator/Person$PersonAttribute;)F	d	getAttributeValue0
 		p	1		attribute
+	f	Ljava/text/DecimalFormat;	b	formatterSmaller
+	m	(F)V	a	addPrestige
+		p	1		prestige
 	m	()Z	l	hasName
 		c	Don't ask what this method is supposed to do
 	m	(Ljava/lang/String;)V	a	setName
@@ -444,34 +461,31 @@ c	snoddasmannen/galimulator/rendersystem/RenderCache	snoddasmannen/galimulator/r
 	f	Lcom/badlogic/gdx/graphics/OrthographicCamera;	i	currentCamera
 	f	Ljava/util/ArrayList;	b	itemsReadView
 		c	Note: itemsReadView and itemsWrite view are identical instances. They affect each other.
-	f	Ljava/util/ArrayList;	c	__nop_emptyList
 	m	(Lsnoddasmannen/galimulator/rendersystem/RenderItem;)V	pushItem	pushItem
-		p	1	renderItem	item
+		p	1		item
+	f	Ljava/util/ArrayList;	c	__nop_emptyList
 	f	F	m	cullSizeFactor
 	m	()I	c	getRenderedItems
-	f	I	d	cacheId
 	f	Ljava/util/ArrayList;	a	itemsWriteView
 		c	Note: itemsReadView and itemsWrite view are identical instances. They affect each other.
+	f	I	d	cacheId
 	f	J	k	drawingThreadId
 	m	(Ljava/util/ArrayList;)V	a	renderItemList
-		p	1	arrayList	renderItemList
+		p	1		renderItemList
 	m	()V	b	__nopMethod0
 	m	()V	a	renderAll
 	m	()V	g	__unusedMethod0
 	f	Lsnoddasmannen/galimulator/rendersystem/ppclass_0;	f	__unusedField0
-c	snoddasmannen/galimulator/EmployerHelper	snoddasmannen/galimulator/EmployerHelper
-	m	(Lsnoddasmannen/galimulator/Job;)V	b	removeJob
-	m	(Lsnoddasmannen/galimulator/Job;)V	a	addJob
 c	snoddasmannen/galimulator/class_47	snoddasmannen/galimulator/TutorialNode
 	m	(Ljava/lang/String;)V	a	setNodeID
 	m	()Lsnoddasmannen/galimulator/ui/Widget$WIDGET_ALIGNMENT;	get_i	getAlignment
+	f	Lsnoddasmannen/galimulator/ui/Widget$WIDGET_ALIGNMENT;	i	alignment
 	m	(Lsnoddasmannen/galimulator/ui/Widget$WIDGET_ALIGNMENT;)V	a	setAlignment
 		p	1		alignment
-	f	Lsnoddasmannen/galimulator/ui/Widget$WIDGET_ALIGNMENT;	i	alignment
 	f	Ljava/lang/String;	b	nodeID
-c	snoddasmannen/galimulator/Settings	snoddasmannen/galimulator/Settings
-	m	(Ljava/lang/String;Z)V	b	setBoolean
-	m	(Ljava/lang/String;Z)Z	a	getBoolean
+c	snoddasmannen/galimulator/EmployerHelper	snoddasmannen/galimulator/EmployerHelper
+	m	(Lsnoddasmannen/galimulator/Job;)V	b	removeJob
+	m	(Lsnoddasmannen/galimulator/Job;)V	a	addJob
 c	snoddasmannen/galimulator/artifacts/Artifact	snoddasmannen/galimulator/artifacts/Artifact
 	m	(Z)V	a	setAlive
 		p	1		alive
@@ -481,11 +495,14 @@ c	snoddasmannen/galimulator/artifacts/Artifact$ArtifactType	snoddasmannen/galimu
 	m	(Ljava/lang/String;)Lsnoddasmannen/galimulator/artifacts/Artifact$ArtifactType;	a	lookupType
 		p	0		type
 	m	()Ljava/util/Vector;	a	getTypes
-	f	Ljava/lang/Class;	c	instanceType
 	m	()Lsnoddasmannen/galimulator/artifacts/Artifact$ArtifactType;	b	getRandomType
+	f	Ljava/lang/Class;	c	instanceType
 	m	(Lsnoddasmannen/galimulator/Star;Lsnoddasmannen/galimulator/Empire;)Lsnoddasmannen/galimulator/artifacts/Artifact;	a	createInstance
 		p	1		location
 		p	2		empire
+c	snoddasmannen/galimulator/Settings	snoddasmannen/galimulator/Settings
+	m	(Ljava/lang/String;Z)V	b	setBoolean
+	m	(Ljava/lang/String;Z)Z	a	getBoolean
 c	snoddasmannen/galimulator/Family	snoddasmannen/galimulator/Family
 	m	(I)V	a	countJobLevel
 		p	1		position
@@ -493,63 +510,65 @@ c	snoddasmannen/galimulator/Family	snoddasmannen/galimulator/Family
 		p	1		log
 	m	(Ljava/lang/String;)V	a	setName
 		p	1		name
-	m	()I	f	getMemberCount
-	m	()Ljava/lang/String;	b	generateFirstName
 	m	()V	c	generateFamilyColors
+	m	()Ljava/lang/String;	b	generateFirstName
+	m	()I	f	getMemberCount
 	m	(Lsnoddasmannen/galimulator/Person;)V	b	rememberMember
 		p	1		member
 	m	(Z)V	b	setFollowed
 		p	1		followed
 c	snoddasmannen/galimulator/ui/class_94	snoddasmannen/galimulator/ui/TutorialDisplayWidget
 	f	Lsnoddasmannen/galimulator/Tutorial;	c	tutorial
+c	snoddasmannen/galimulator/FlagOwner	snoddasmannen/galimulator/FlagOwner
+	m	()V	l	getFlag
 c	snoddasmannen/galimulator/GalFX	snoddasmannen/galimulator/GalFX
 	m	()Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	i	getCurrentShader
+	m	()D	b	getCameraRotationRad
 	m	()I	G	getDesiredResolutionWidth
 	f	Ljava/lang/String;	k	BASIC_VERTEX_SHADER
 	m	()V	x	endSpriteDrawing
 	f	Lcom/badlogic/gdx/graphics/OrthographicCamera;	m	currentProjection
 	m	(Z)V	c	setFullscreen
-		p	0	boolean0	fullscreen
-	f	Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	ac	premultipliedAlphaShader
+		p	0		fullscreen
 	m	()V	z	endPolygonDrawing
+	f	Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	ac	premultipliedAlphaShader
 	f	Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	ae	rippleShader
+	m	(FF)V	a	panTranslate
 	m	(F)V	a	setZoom
-		p	0	float0	zoom
+		p	0		zoom
 	m	()V	d	resetZoom
 	m	()Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	get_ad	getShipLightingShader
 	m	()Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	get_ab	getPlanetShader
 	m	()V	h	useDefaultShader
 	m	()V	f	initialize
-	m	(FFLjava/lang/String;Lsnoddasmannen/galimulator/GalColor;)F	a	drawText
 	f	Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;	a	mainSpriteBatch
+	m	(FFLjava/lang/String;Lsnoddasmannen/galimulator/GalColor;)F	a	drawText
 	m	()V	p	toggleFullscreen
-	m	()F	e	getDesiredZoom
 	m	()I	H	getDesiredResolutionHeight
-	f	Ljava/lang/String;	l	PREMULTIPLIED_ALPHA_FRAGMENT_SHADER
+	m	()F	e	getDesiredZoom
 	f	Lcom/badlogic/gdx/graphics/g2d/PolygonSpriteBatch;	o	mainPolygonBatch
-	m	(Lsnoddasmannen/galimulator/rendersystem/RenderCache;)V	a	setActiveRenderCache
+	f	Ljava/lang/String;	l	PREMULTIPLIED_ALPHA_FRAGMENT_SHADER
 	f	Z	v	drawingSprites
+	m	(Lsnoddasmannen/galimulator/rendersystem/RenderCache;)V	a	setActiveRenderCache
 	m	()V	y	startPolygonDrawing
 	m	()V	w	startSpriteDrawing
 	f	Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;	S	__unusedSpritebatch0
 	f	Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	ab	planetShader
 	m	(Lcom/badlogic/gdx/graphics/g2d/PolygonSprite;)V	a	drawPolygon
-	f	Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	ad	shipLightingShader
-	m	()V	A	__unusedMethod0
 	m	(Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;)V	a	setCurrentShader
-		p	0	shaderProgram	shader
+		p	0		shader
+	m	()V	A	__unusedMethod0
+	f	Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	ad	shipLightingShader
 	m	(II)V	a	setBlendFunction
-		p	1	integer1	dstFunc
-		p	0	integer0	srcFunc
+		p	1		dstFunc
+		p	0		srcFunc
 	m	()Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	get_ae	getRippleShader
 	m	()Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;	get_ac	getPremultipliedAlphaShader
 	m	(I)V	a	__nopMethod0
 	m	()V	J	__nop__resetUnusedProjection
 	m	(Ljava/lang/String;F)V	a	setShaderUniform
-		p	1	float1	uniformValue
-		p	0	string	uniformName
-c	snoddasmannen/galimulator/FlagOwner	snoddasmannen/galimulator/FlagOwner
-	m	()V	l	getFlag
+		p	1		uniformValue
+		p	0		uniformName
 c	snoddasmannen/galimulator/AudioManager	snoddasmannen/galimulator/AudioManager
 c	snoddasmannen/galimulator/AudioManager$AudioSample	snoddasmannen/galimulator/AudioManager$AudioSample
 	m	(FF)V	a	playSoundAt
@@ -560,11 +579,11 @@ c	snoddasmannen/galimulator/EmploymentAgency	snoddasmannen/galimulator/Employmen
 	m	(Lsnoddasmannen/galimulator/Job;)V	a	addJob
 	m	(Lsnoddasmannen/galimulator/Job;)V	b	removeJob
 	m	(Lsnoddasmannen/galimulator/Employer;)V	c	addEmployer
-	m	(Lsnoddasmannen/galimulator/Job;)V	e	removeJobHolder
 	m	(Lsnoddasmannen/galimulator/Employer;)Ljava/util/List;	b	getJobsFromHelper
+	m	(Lsnoddasmannen/galimulator/Job;)V	e	removeJobHolder
 	m	(Lsnoddasmannen/galimulator/Job;)V	c	removeUnreplenishingJob
-	m	(Lsnoddasmannen/galimulator/Job;)V	d	createJobOpening
 	m	(Lsnoddasmannen/galimulator/Employer;)Ljava/util/List;	a	__unusedMethod__collectJobsFrom
+	m	(Lsnoddasmannen/galimulator/Job;)V	d	createJobOpening
 	m	()V	b	forgetInstance
 	m	(Lsnoddasmannen/galimulator/Employer;Lsnoddasmannen/galimulator/Job$JobType;)Lsnoddasmannen/galimulator/Job;	a	collectMatchingJobs
 	m	()V	f	clearJobsPerLevel
@@ -576,44 +595,44 @@ c	snoddasmannen/galimulator/QuadTree	snoddasmannen/galimulator/QuadTree
 	m	(Lsnoddasmannen/galimulator/QuadTree;)Lsnoddasmannen/galimulator/Star;	c	getNearestStar
 		p	1		to
 	m	(Lcom/badlogic/gdx/math/Rectangle;)Z	c	hasStarsWithin
-	m	(Lcom/badlogic/gdx/math/Rectangle;)Z	b	isOverlapping
-		p	1		aabb
 	m	(Ljava/util/Vector;Lcom/badlogic/gdx/math/Rectangle;)V	a	getStarsWithin
 		p	1		out
 		p	2		aabb
+	m	(Lcom/badlogic/gdx/math/Rectangle;)Z	b	isOverlapping
+		p	1		aabb
 	m	()Z	h	subdivideTree
 	m	()V	c	drawQuadTreeBoundingBox
 	m	()F	b	getContainerWidth
-	m	()Ljava/util/Vector;	e	getStoredStars
 	f	Lsnoddasmannen/galimulator/Star;	b	storedStar
+	m	()Ljava/util/Vector;	e	getStoredStars
 	f	Lsnoddasmannen/galimulator/QuadTree;	j	northeast
 	f	Lsnoddasmannen/galimulator/QuadTree;	i	northwest
-	f	Lsnoddasmannen/galimulator/QuadTree;	h	southeast
-	m	()Ljava/util/Vector;	get_l	getPairsFast
 	f	Ljava/util/Vector;	l	pairs
+	m	()Ljava/util/Vector;	get_l	getPairsFast
+	f	Lsnoddasmannen/galimulator/QuadTree;	h	southeast
+	m	()F	g	getWidth
+	f	Lsnoddasmannen/galimulator/QuadTree;	g	southwest
 	m	(Lsnoddasmannen/galimulator/QuadTree;)F	a	__DO_NOT_USE_estimateDistance
 		p	1		to
-	f	Lsnoddasmannen/galimulator/QuadTree;	g	southwest
-	m	()F	g	getWidth
 	m	(Lcom/badlogic/gdx/math/Rectangle;)Ljava/util/Vector;	a	getStarsWithin
 		p	1		aabb
 	m	(Lsnoddasmannen/galimulator/QuadTree;Lsnoddasmannen/galimulator/QuadTree;)Ljava/util/Vector;	a	generatePairsBetween
 		p	0		parent
 		p	1		child
 c	snoddasmannen/galimulator/weapons/Weapon	snoddasmannen/galimulator/weapons/Weapon
-	f	Lsnoddasmannen/galimulator/actors/Actor;	b	targetActor
-	m	()Ljava/lang/String;	f	getDisplayName
 	m	(Lsnoddasmannen/galimulator/weapons/interface_0;)V	a	addListener
-		p	1	argument	listener
+		p	1		listener
+	m	()Ljava/lang/String;	f	getDisplayName
+	f	Lsnoddasmannen/galimulator/actors/Actor;	b	targetActor
 	m	()Z	d	canShootNow
-	m	()Ljava/lang/String;	h	__nopMethod__getNameSuffix
 	m	()V	a	tick
+	m	()Ljava/lang/String;	h	__nopMethod__getNameSuffix
 	m	(FF)V	a	setTargetLocation
 	m	(Lsnoddasmannen/galimulator/actors/Actor;)V	b	setTargetActor
 	m	(Lsnoddasmannen/galimulator/actors/Actor;)V	a	setTarget
 	m	()Lsnoddasmannen/galimulator/actors/Actor;	g	getNearestEnemyInRange
 	m	(Z)V	a	setBlocked
-		p	1	boolean0	blocked
+		p	1		blocked
 c	snoddasmannen/galimulator/rendersystem/RenderItem	snoddasmannen/galimulator/rendersystem/RenderItem
 	m	()Lcom/badlogic/gdx/math/Rectangle;	get_b	getBoundingRectangle
 	f	Lcom/badlogic/gdx/graphics/OrthographicCamera;	c	camera
@@ -640,8 +659,8 @@ c	snoddasmannen/galimulator/ConfigurablePreference	snoddasmannen/galimulator/Con
 c	snoddasmannen/galimulator/rendersystem/interface_0	snoddasmannen/galimulator/rendersystem/Bounded
 	m	()Lcom/badlogic/gdx/math/Rectangle;	f_	getBounds
 c	snoddasmannen/galimulator/ui/WidgetLayout	snoddasmannen/galimulator/ui/WidgetLayout
-	m	()V	b	onDispose
 	m	(Lcom/badlogic/gdx/graphics/Camera;)V	a	setCamera
+	m	()V	b	onDispose
 	m	()I	get_e	getMarginWidth
 c	snoddasmannen/galimulator/ui/InformationWidget	snoddasmannen/galimulator/ui/InformationWidget
 	f	Lsnoddasmannen/galimulator/ui/BaseButtonWidget;	c	contentWidget

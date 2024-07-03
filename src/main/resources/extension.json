@@ -4,7 +4,7 @@
     "author": "Geolykt",
     "version": "2.0.0",
     "mixinConfig": "fastmixins.json",
-    "reversibleAccessSetter": "starstar.ras",
+    "reversibleAccessSetter": "faststar.ras",
     "externalDependencies" : {
         "repositories" : [
             {
