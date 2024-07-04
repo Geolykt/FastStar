@@ -1,14 +1,13 @@
 package de.geolykt.faststar.intrinsics;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.math.Vector2;
-
-import de.geolykt.faststar.qtree.QuadTree;
+import de.geolykt.faststar.intrinsics.SpatialQueryArray.PointObjectPair;
 import de.geolykt.starloader.api.Galimulator;
 import de.geolykt.starloader.api.empire.Star;
 
@@ -17,15 +16,13 @@ import snoddasmannen.galimulator.actors.Actor;
 
 public class SpatialQuery {
 
-    private static QuadTree<Star> stars;
-    private static QuadTree<Actor> actors;
-    private static final Vector2 VECTOR_TEMP_DRAW = new Vector2();
-    private static final Vector2 VECTOR_TEMP_TICK = new Vector2();
+    private static SpatialQueryArray<Star> stars;
+    private static SpatialQueryArray<Actor> actors;
 
     public static Actor getNearestActor(float x, float y, @NotNull Actor witness) {
         Iterator<Actor> it = SpatialQuery.actors.queryKnn(x, y);
         if (!it.hasNext()) {
-            LoggerFactory.getLogger(SpatialQuery.class).warn("Actor {} not contained in QuadTree", witness);
+            LoggerFactory.getLogger(SpatialQuery.class).warn("Actor {} not contained in SpatialQueryArray", witness);
             return null;
         }
         it.next();
@@ -53,24 +50,19 @@ public class SpatialQuery {
     }
 
     public static void updateActorsActorTicking() {
-        SpatialQuery.actors = new QuadTree<>(Space.getMaxX(), (actor) -> {
-            SpatialQuery.VECTOR_TEMP_TICK.set(actor.getX(), actor.getY());
-            return SpatialQuery.VECTOR_TEMP_TICK;
-        });
+        List<PointObjectPair<Actor>> actorPositions = new ArrayList<>();
         for (Actor a : Space.actors) {
-            assert a != null;
-            SpatialQuery.actors.addElement(a);
+            actorPositions.add(new PointObjectPair<>(a, a.getX(), a.getY()));
         }
+        SpatialQuery.actors = new SpatialQueryArray<>(actorPositions);
     }
 
     public static void updateStarsActorDrawing() {
-        SpatialQuery.stars = new QuadTree<>(Space.getMaxX(), (star) -> {
-            SpatialQuery.VECTOR_TEMP_DRAW.set(star.getX(), star.getY());
-            return SpatialQuery.VECTOR_TEMP_DRAW;
-        });
-        for (Star star : Galimulator.getUniverse().getStarsView()) {
-            SpatialQuery.stars.addElement(star);
+        List<PointObjectPair<Star>> starPositions = new ArrayList<>();
+        for (Star s : Galimulator.getUniverse().getStarsView()) {
+            starPositions.add(new PointObjectPair<>(s, s.getX(), s.getY()));
         }
+        SpatialQuery.stars = new SpatialQueryArray<>(starPositions);
     }
     /*
 

@@ -21,7 +21,6 @@ import de.geolykt.starloader.api.empire.Star;
 
 import snoddasmannen.galimulator.Space;
 import snoddasmannen.galimulator.guides.LandmarkManager;
-import snoddasmannen.galimulator.guides.ppclass_0;
 
 @Mixin(value = LandmarkManager.class, priority = 3000)
 public class LandmarkManagerMixins {
@@ -35,8 +34,8 @@ public class LandmarkManagerMixins {
     @Unique
     private static final Logger LOGGER = LoggerFactory.getLogger(FastStar.class);
 
-    @Shadow(aliases = "a")
-    private static ArrayList<ppclass_0> landmarks;
+    @Shadow
+    private static ArrayList<snoddasmannen.galimulator.guides.Landmark> landmarks;
 
     @Overwrite
     @SuppressWarnings("deprecation")
@@ -55,12 +54,12 @@ public class LandmarkManagerMixins {
                 if (nearestStar == null) {
                     continue;
                 }
-                for (ppclass_0 landmark : LandmarkManagerMixins.landmarks) {
-                    if (landmark.a == nearestStar) {
+                for (snoddasmannen.galimulator.guides.Landmark landmark : LandmarkManagerMixins.landmarks) {
+                    if (landmark.landmarkStar == nearestStar) {
                         continue gridLoop;
                     }
                 }
-                LandmarkManagerMixins.landmarks.add(new ppclass_0((snoddasmannen.galimulator.Star) nearestStar));
+                LandmarkManagerMixins.landmarks.add(new snoddasmannen.galimulator.guides.Landmark((snoddasmannen.galimulator.Star) nearestStar));
             }
         }
 
@@ -71,11 +70,11 @@ public class LandmarkManagerMixins {
 
         List<CompletableFuture<Void>> alltasks = new ArrayList<>();
         AtomicInteger counter = new AtomicInteger();
-        Space.h("(0 of " + LandmarkManagerMixins.landmarks.size() + ")");
-        for (ppclass_0 landmark : LandmarkManagerMixins.landmarks) {
+        Space.setBackgroundTaskProgress("(0 of " + LandmarkManagerMixins.landmarks.size() + ")");
+        for (snoddasmannen.galimulator.guides.Landmark landmark : LandmarkManagerMixins.landmarks) {
             alltasks.add(CompletableFuture.runAsync(() -> {
                 LandmarkPopulator.populateLandmark((Landmark) landmark);
-                Space.h("(" + counter.incrementAndGet() + " of " + LandmarkManagerMixins.landmarks.size() + ")");
+                Space.setBackgroundTaskProgress("(" + counter.incrementAndGet() + " of " + LandmarkManagerMixins.landmarks.size() + ")");
             }, JavaInterop.getExecutor()));
         }
         CompletableFuture.allOf(alltasks.toArray(new CompletableFuture[0])).join();
