@@ -1,14 +1,13 @@
 plugins {
     id 'java'
     id 'java-library'
-    id 'gsl-starplane' version '0.2.0-a20240702'
-    //id 'gsl-starplane' version '0.2.0'
+    id 'gsl-starplane' version '0.2.0-a20240711'
     id 'maven-publish'
     id 'eclipse'
 }
 
 group 'de.geolykt'
-version '2.0.1'
+// Hint: Version is declared in gradle.properties file
 
 // The following statement defines that Java 8 should be used (which is galimulator's runtime version),
 // however if you dare, you can bump the version - just beware that users may lack the knowledge in how to install and run
@@ -16,13 +15,13 @@ version '2.0.1'
 targetCompatibility = compileJava.targetCompatibility = sourceCompatibility = compileJava.sourceCompatibility = '1.8'
 
 repositories {
-    mavenLocal()
     // stianloader's maven repository, which is the repo where SLAPI and SLL are contianed in (among other stianloader toolchain stuff)
     maven {
         name 'stianloader-maven'
         url 'https://stianloader.org/maven'
     }
     mavenCentral()
+    mavenLocal()
 }
 
 starplane {
@@ -31,7 +30,9 @@ starplane {
 }
 
 configurations {
-    dependencyModsRuntime
+    dependencyModsRuntime {
+        transitive = false
+    }
     compileOnlyApi.extendsFrom(devRuntime)
     compileOnlyApi.extendsFrom(galimulatorDependencies)
 }
@@ -43,33 +44,25 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240629:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240705:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
-    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240703"
+    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240711"
+    // https://stianloader.org/maven/org/stianloader/micromixin-annotations/
     compileOnly "org.stianloader:micromixin-annotations:0.6.1-a20240703"
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
     compileOnlyApi "org.jetbrains:annotations:24.1.0"
 
-    // https://mvnrepository.com/artifact/org.danilopianini/java-quadtree
-    // Remember to adjust the version here to the version used in the extension.json, too!
-    compileOnly ("org.danilopianini:java-quadtree:0.2.0") {
+    compileOnly ("org.danilopianini:java-quadtree:${quadTreeVersion}") {
         exclude group: 'com.google.guava', module: 'guava'
     }
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240629:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240705:remapped"
 
-    // Note: these dependencies have to be built yourself as they aren't published on a maven repo (yet)
-    // However, they are completely optional - even for the build process so feel free to comment these lines out
-
-    // Specialised (lossy) performance mods
-    dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.1.0"
-
-    // Profiler
-    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.0.1-SNAPSHOT"
-
-    // "Other" mods
-    dependencyModsRuntime "de.geolykt:star-cell-shading:0.2.2:remapped"
+    // Mods we also want to test this mod with, but don't actually depend on.
+    dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.1.0-a20240705"
+    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240712"
+    dependencyModsRuntime "de.geolykt:star-cell-shading:0.2.2-a20240709:remapped"
 }
 
 remapJar {
@@ -153,8 +146,14 @@ publishing {
     }
 }
 
+processResources {
+    filesMatching("extension.json") {
+        expand(project.properties)
+    }
+}
+
 genEclipseRuns {
-    additionalRuntimeDependency("main", configurations["runtimeClasspath"])
+    propertyExpansionSource = project.file("gradle.properties")
 }
 
 // Unfortunately Eclipse does not have per-sourceset java versions so
