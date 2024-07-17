@@ -20,6 +20,7 @@ import de.geolykt.starloader.api.empire.Star;
 import snoddasmannen.galimulator.QuadTree;
 import snoddasmannen.galimulator.Space;
 import snoddasmannen.galimulator.actors.Actor;
+import snoddasmannen.galimulator.rendersystem.RenderCache;
 
 @Mixin(value = Space.class, priority = 3000)
 public class SpaceMixins {
@@ -46,9 +47,21 @@ public class SpaceMixins {
         slice = @Slice(
             from = @At(value = "INVOKE", desc = @Desc(owner = snoddasmannen.galimulator.Alliance.class, value = "kill")),
             to = @At(value = "INVOKE", desc = @Desc(owner = Actor.class, value = "activity"))
-        )
+        ),
+        allow = 1,
+        require = 1
     )
     private static void faststar$updateActorLoop(CallbackInfo ci) {
         SpatialQuery.updateActorsActorTicking();
+    }
+
+    @Inject(
+        target = @Desc(value = "drawToCache", ret = RenderCache.class),
+        at = @At(value = "FIELD", desc = @Desc(value = "actors", ret = Vector.class)),
+        allow = 1,
+        require = 1
+    )
+    private static void faststar$onActorDraw(CallbackInfoReturnable<RenderCache> cir) {
+        SpatialQuery.updateStarsActorDrawing();
     }
 }
