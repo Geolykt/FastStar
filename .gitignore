@@ -9,3 +9,4 @@ data
 !.gitignore
 *.launch
 *.dat
+hs_err_pid*.log
