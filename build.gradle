@@ -44,11 +44,11 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240717:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240728.1:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
-    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240713"
+    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240731"
     // https://stianloader.org/maven/org/stianloader/micromixin-annotations/
-    compileOnly "org.stianloader:micromixin-annotations:0.6.1-a20240713"
+    compileOnly "org.stianloader:micromixin-annotations:0.6.2-a20240731"
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
     compileOnlyApi "org.jetbrains:annotations:24.1.0"
 
@@ -57,12 +57,15 @@ dependencies {
     }
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240717:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240728.1:remapped"
 
     // Mods we also want to test this mod with, but don't actually depend on.
     dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.1.0-a20240705"
-    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240712:remapped"
-    dependencyModsRuntime "de.geolykt:star-cell-shading:0.2.2-a20240709:remapped"
+    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240712:remapped" // This one is there just for the sake of convinience
+    // https://stianloader.org/maven/de/geolykt/star-cell-shading/
+    dependencyModsRuntime "de.geolykt:star-cell-shading:0.3.0-a20240804"
+    // https://stianloader.org/maven/de/geolykt/s2dmenues/
+    dependencyModsRuntime "de.geolykt:s2dmenues:0.1.1-a20240802:remapped" // Especially this one has caused bugs in the past
 }
 
 remapJar {

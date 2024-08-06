@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.Unique;
 
 import de.geolykt.faststar.FastStar;
 import de.geolykt.faststar.JavaInterop;
-import de.geolykt.faststar.LandmarkPopulator;
-import de.geolykt.faststar.LandmarkPopulator.Landmark;
+import de.geolykt.faststar.intrinsics.LandmarkPopulator;
+import de.geolykt.faststar.intrinsics.LandmarkPopulator.Landmark;
 import de.geolykt.starloader.api.Galimulator;
 import de.geolykt.starloader.api.empire.Star;
 
@@ -25,7 +25,7 @@ import snoddasmannen.galimulator.guides.LandmarkManager;
 @Mixin(value = LandmarkManager.class, priority = 3000)
 public class LandmarkManagerMixins {
     /**
-     * As landmarks are stored in a O(n) collections [or a List in more plain terms],
+     * As landmarks are stored in a O(n) collection [or a List in more plain terms],
      * one should be aware that not too many landmarks can be stored at any point in time.
      */
     @Unique
@@ -77,6 +77,7 @@ public class LandmarkManagerMixins {
                 Space.setBackgroundTaskProgress("(" + counter.incrementAndGet() + " of " + LandmarkManagerMixins.landmarks.size() + ")");
             }, JavaInterop.getExecutor()));
         }
+
         CompletableFuture.allOf(alltasks.toArray(new CompletableFuture[0])).join();
     }
 }

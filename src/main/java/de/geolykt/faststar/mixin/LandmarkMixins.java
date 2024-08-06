@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-import de.geolykt.faststar.LandmarkPopulator.Landmark;
+import de.geolykt.faststar.intrinsics.LandmarkPopulator.Landmark;
 import de.geolykt.starloader.api.empire.Star;
 
 @Mixin(value = snoddasmannen.galimulator.guides.Landmark.class, priority = 3000)
