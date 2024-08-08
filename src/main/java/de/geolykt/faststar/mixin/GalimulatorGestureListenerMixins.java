@@ -1,10 +1,14 @@
 package de.geolykt.faststar.mixin;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.sugar.Cancellable;
 
 import de.geolykt.faststar.AsynchronousAuxiliaryPanListener;
 import de.geolykt.starloader.api.Galimulator;
@@ -23,19 +27,21 @@ public class GalimulatorGestureListenerMixins {
                 to = @At(value = "INVOKE", desc = @Desc(owner = AuxiliaryListener.class, value = "globalPan", args = {float.class, float.class}, ret = boolean.class))
             )
     )
-    private boolean faststar$handleAuxiliaryPanListeners(java.util.Vector<AuxiliaryListener> listeners, float deltaX, float deltaY) {
+    private boolean faststar$handleAuxiliaryPanListeners(java.util.Vector<AuxiliaryListener> listeners,
+            float deltaX, float deltaY, @NotNull @Cancellable CallbackInfoReturnable<Boolean> cir) {
         // FIXME this is a compatibility nightmare; use a bunch of @WrapOperations instead once that is supported by micromixin.
         LockScope acquiredScope = null;
 
         try {
             for (AuxiliaryListener listener : listeners) {
-                if (listener instanceof AsynchronousAuxiliaryPanListener) {
-                    listener.globalPan(deltaX, deltaY);
-                } else {
-                    if (acquiredScope != null) {
-                        acquiredScope = Galimulator.getSimulationLoopLock().acquireHardControlWithResources();
-                    }
-                    listener.globalPan(deltaX, deltaY);
+                if (!(listener instanceof AsynchronousAuxiliaryPanListener) && acquiredScope == null) {
+                    acquiredScope = Galimulator.getSimulationLoopLock().acquireHardControlWithResources();
+                }
+
+                if (listener.globalPan(deltaX, deltaY)) {
+                    // Abort continued execution of parent method - this prevents further camera translations
+                    cir.setReturnValue(true);
+                    return true;
                 }
             }
         } catch (InterruptedException e) {
