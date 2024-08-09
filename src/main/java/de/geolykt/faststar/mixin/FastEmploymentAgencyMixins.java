@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.badlogic.gdx.math.Vector2;
 
+import de.geolykt.faststar.intrinsics.SetBasedPseudoList;
 import de.geolykt.faststar.intrinsics.SpatialQueryArray;
 import de.geolykt.faststar.intrinsics.SpatialQueryArray.PointObjectPair;
 import de.geolykt.starloader.api.Galimulator;
@@ -33,6 +36,16 @@ public class FastEmploymentAgencyMixins {
 
     @Shadow
     private List<Person>[] personsPerLevel;
+
+    @SuppressWarnings("unchecked")
+    @Overwrite
+    private void clearPeoplePerLevel() {
+        this.personsPerLevel = new List[5];
+
+        for (int var1 = 0; var1 < 5; var1++) {
+            this.personsPerLevel[var1] = new SetBasedPseudoList<>(ConcurrentHashMap.newKeySet());
+        }
+    }
 
     @Inject(method = "tick()V", at = @At("HEAD"))
     private void faststar$assembleQueryArrays(CallbackInfo ci) {
@@ -114,7 +127,8 @@ public class FastEmploymentAgencyMixins {
         candidates.remove(replacement);
 
         if (candidates.isEmpty()) {
-            return this.personsPerLevel[level - 1];
+            candidates.addAll(this.personsPerLevel[level - 1]);
+            return candidates;
         }
 
         candidates.removeIf(p -> {

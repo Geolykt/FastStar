@@ -10,6 +10,7 @@
     "FastEmploymentAgencyMixins",
     "ForwardingListenerMixins",
     "GalimulatorGestureListenerMixins",
+    "JobMixins",
     "LandmarkManagerMixins",
     "LandmarkMixins",
     "PersonMixins",
