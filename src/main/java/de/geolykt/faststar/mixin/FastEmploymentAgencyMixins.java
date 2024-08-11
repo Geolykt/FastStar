@@ -3,8 +3,9 @@ package de.geolykt.faststar.mixin;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,11 +32,21 @@ import snoddasmannen.galimulator.Person;
 @Mixin(value = EmploymentAgency.class, priority = 8000)
 public class FastEmploymentAgencyMixins {
 
+    @Shadow
+    private List<Job> openings;
+
     @Unique
     private transient SpatialQueryArray<Person>[] faststar$peopleAtLevel;
 
     @Shadow
     private List<Person>[] personsPerLevel;
+
+    public FastEmploymentAgencyMixins() {
+        if (this.openings instanceof ArrayList) {
+            System.out.println("Confirm");
+            this.openings = new LinkedList<>(this.openings);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     @Overwrite
@@ -43,7 +54,7 @@ public class FastEmploymentAgencyMixins {
         this.personsPerLevel = new List[5];
 
         for (int var1 = 0; var1 < 5; var1++) {
-            this.personsPerLevel[var1] = new SetBasedPseudoList<>(ConcurrentHashMap.newKeySet());
+            this.personsPerLevel[var1] = new SetBasedPseudoList<>(new LinkedHashSet<>());
         }
     }
 

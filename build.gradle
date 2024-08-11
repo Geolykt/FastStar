@@ -61,7 +61,8 @@ dependencies {
 
     // Mods we also want to test this mod with, but don't actually depend on.
     dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.1.0-a20240705"
-    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240712:remapped" // This one is there just for the sake of convinience
+    // This one is there just for the sake of convinience
+    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240810:remapped"
     // https://stianloader.org/maven/de/geolykt/star-cell-shading/
     dependencyModsRuntime "de.geolykt:star-cell-shading:0.3.0-a20240804"
     // https://stianloader.org/maven/de/geolykt/s2dmenues/
