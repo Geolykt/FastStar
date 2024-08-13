@@ -43,7 +43,6 @@ public class FastEmploymentAgencyMixins {
 
     public FastEmploymentAgencyMixins() {
         if (this.openings instanceof ArrayList) {
-            System.out.println("Confirm");
             this.openings = new LinkedList<>(this.openings);
         }
     }
