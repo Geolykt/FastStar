@@ -24,20 +24,20 @@ public class GalFXMixins {
         allow = 1
     )
     private static void faststar$drawTexture$smartSetProjectionMatrix(SpriteBatch reciever, Matrix4 projectionMatrix) {
-        // Avoid unnecessary SpriteBatch flushes (and thus unnecessary draw calls)n
+        // Avoid unnecessary SpriteBatch flushes (and thus unnecessary draw calls)
         if (!Arrays.equals(reciever.getProjectionMatrix().val, projectionMatrix.val)) {
             reciever.setProjectionMatrix(projectionMatrix);
         }
     }
 
     @Redirect(
-        target = @Desc(value = "a", args = float[].class),
+        target = @Desc(value = "drawVertices", args = float[].class),
         at = @At(value = "INVOKE", desc = @Desc(owner = SpriteBatch.class, value = "setProjectionMatrix", args = Matrix4.class)),
         require = 1,
         allow = 1
     )
     private static void faststar$drawVertices$smartSetProjectionMatrix(SpriteBatch reciever, Matrix4 projectionMatrix) {
-        // Avoid unnecessary SpriteBatch flushes (and thus unnecessary draw calls)n
+        // Avoid unnecessary SpriteBatch flushes (and thus unnecessary draw calls)
         if (!Arrays.equals(reciever.getProjectionMatrix().val, projectionMatrix.val)) {
             reciever.setProjectionMatrix(projectionMatrix);
         }
