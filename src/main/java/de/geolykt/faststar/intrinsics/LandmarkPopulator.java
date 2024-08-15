@@ -3,6 +3,8 @@ package de.geolykt.faststar.intrinsics;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.IntSet;
@@ -16,10 +18,12 @@ public class LandmarkPopulator {
         public Map<Star, Float> getDistances();
     }
 
-    public static final IntMap<Landmark> CLOSEST_LANDMARKS = new IntMap<>();
+    public static final IntMap<Landmark> CLOSEST_LANDMARKS_SYNCHRONIZED = new IntMap<>();
+    public static final Map<Integer, Landmark> CLOSEST_LANDMARKS_CONCURRENT = new ConcurrentHashMap<>();
+    public static final AtomicInteger LANDMARK_POPULATION_COUNTER = new AtomicInteger();
 
     public static void populateLandmark(Landmark landmark) {
-        LandmarkPopulator.CLOSEST_LANDMARKS.clear();
+        LandmarkPopulator.LANDMARK_POPULATION_COUNTER.incrementAndGet();
         IntSet bfsVisitedStarIds = new IntSet();
         Map<Star, Float> distances = landmark.getDistances();
         NavigableSet<StarDistancePair> scheduledVisits = new TreeSet<>();
@@ -53,11 +57,15 @@ public class LandmarkPopulator {
         }
 
         for (Map.Entry<Star, Float> entry : distances.entrySet()) {
-            Landmark otherLM = LandmarkPopulator.CLOSEST_LANDMARKS.get(entry.getKey().getUID());
-            if (otherLM != null && otherLM.getDistances().get(entry.getKey()) < entry.getValue()) {
-                continue;
-            }
-            LandmarkPopulator.CLOSEST_LANDMARKS.put(entry.getKey().getUID(), landmark);
+            LandmarkPopulator.CLOSEST_LANDMARKS_CONCURRENT.compute(entry.getKey().getUID(), (uid, currentLandmark) -> {
+                if (currentLandmark == null) {
+                    return landmark;
+                }
+                Float distance = currentLandmark.getDistances().get(entry.getKey());
+                return (distance != null && distance.floatValue() < entry.getValue()) ? currentLandmark : landmark;
+            });
         }
+
+        LandmarkPopulator.LANDMARK_POPULATION_COUNTER.decrementAndGet();
     }
 }

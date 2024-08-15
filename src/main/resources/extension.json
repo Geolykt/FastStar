@@ -29,6 +29,11 @@
                 "exclusions": [
                     "com.google.guava:guava"
                 ]
+            },
+            {
+                "group": "org.stianloader",
+                "artifact": "stianloader-concurrent",
+                "version": "${stianloaderConcurrentVersion}"
             }
         ]
     }

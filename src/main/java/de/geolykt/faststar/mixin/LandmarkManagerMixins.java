@@ -2,6 +2,7 @@ package de.geolykt.faststar.mixin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,6 +72,7 @@ public class LandmarkManagerMixins {
         List<CompletableFuture<Void>> alltasks = new ArrayList<>();
         AtomicInteger counter = new AtomicInteger();
         Space.setBackgroundTaskProgress("(0 of " + LandmarkManagerMixins.landmarks.size() + ")");
+        LandmarkPopulator.CLOSEST_LANDMARKS_CONCURRENT.clear();
         for (snoddasmannen.galimulator.guides.Landmark landmark : LandmarkManagerMixins.landmarks) {
             alltasks.add(CompletableFuture.runAsync(() -> {
                 LandmarkPopulator.populateLandmark((Landmark) landmark);
@@ -78,6 +80,13 @@ public class LandmarkManagerMixins {
             }, JavaInterop.getExecutor()));
         }
 
-        CompletableFuture.allOf(alltasks.toArray(new CompletableFuture[0])).join();
+        CompletableFuture.allOf(alltasks.toArray(new CompletableFuture[0]))
+            .thenRun(() -> {
+                LandmarkPopulator.CLOSEST_LANDMARKS_SYNCHRONIZED.clear();
+                for (Map.Entry<Integer, Landmark> entry : LandmarkPopulator.CLOSEST_LANDMARKS_CONCURRENT.entrySet()) {
+                    LandmarkPopulator.CLOSEST_LANDMARKS_SYNCHRONIZED.put(entry.getKey(), entry.getValue());
+                }
+            })
+            .join();
     }
 }
