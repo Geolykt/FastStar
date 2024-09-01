@@ -44,7 +44,7 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240825:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240831:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
     devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20240825"
     // https://stianloader.org/maven/org/stianloader/micromixin-annotations/
@@ -59,10 +59,10 @@ dependencies {
     }
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240825:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240831:remapped"
 
     // Mods we also want to test this mod with, but don't actually depend on.
-    dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.1.0-a20240705"
+    dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.2.0-a20240831"
     // This one is there just for the sake of convinience
     dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240810:remapped"
     // https://stianloader.org/maven/de/geolykt/star-cell-shading/

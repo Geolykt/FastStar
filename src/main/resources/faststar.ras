@@ -2,3 +2,8 @@ RAS v1 std
 
  all        0               ACC_PUBLIC      snoddasmannen/galimulator/guides/Landmark
  all        0               ACC_PUBLIC      snoddasmannen/galimulator/QuadTreePair                  <init>                  (Ljava/util/Vector;Ljava/util/Vector;)V
+
+ all        0               ACC_PUBLIC      snoddasmannen/galimulator/EmploymentAgency              jobs                    Ljava/util/List;
+ all        0               ACC_PUBLIC      snoddasmannen/galimulator/EmploymentAgency              openings                Ljava/util/List;
+ all        0               ACC_PUBLIC      snoddasmannen/galimulator/EmploymentAgency              jobsPerLevel            [Ljava/util/List;
+ all        0               ACC_PUBLIC      snoddasmannen/galimulator/EmploymentAgency              personsPerLevel         [Ljava/util/List;

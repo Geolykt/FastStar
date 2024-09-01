@@ -46,7 +46,7 @@ public class SpatialQuery {
     }
 
     public static void getNearestStars(float x, float y, int cutoff, @NotNull List<Star> out) {
-        SpatialQuery.stars.queryKnn(x, y, cutoff, out);
+        SpatialQuery.stars.queryKnn(x, y, cutoff, out::add);
     }
 
     public static void updateActorsActorTicking() {

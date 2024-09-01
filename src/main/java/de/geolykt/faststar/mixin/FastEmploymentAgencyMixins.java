@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.badlogic.gdx.math.Vector2;
 
+import de.geolykt.faststar.intrinsics.EmploymentAgencyExpress.EmploymentAgencySnailAccess;
 import de.geolykt.faststar.intrinsics.SetBasedPseudoList;
 import de.geolykt.faststar.intrinsics.SpatialQueryArray;
 import de.geolykt.faststar.intrinsics.SpatialQueryArray.PointObjectPair;
@@ -30,13 +32,22 @@ import snoddasmannen.galimulator.Job;
 import snoddasmannen.galimulator.Person;
 
 @Mixin(value = EmploymentAgency.class, priority = 8000)
-public class FastEmploymentAgencyMixins {
+public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
+
+    @Shadow
+    private static EmploymentAgency instance;
+
+    @Shadow
+    transient ExecutorService b;
+
+    @Unique
+    private transient SpatialQueryArray<Job>[] faststar$jobsAtLevel;
 
     @Shadow
     private List<Job> openings;
 
-    @Unique
-    private transient SpatialQueryArray<Person>[] faststar$peopleAtLevel;
+    @Shadow
+    private List<Job>[] jobsPerLevel;
 
     @Shadow
     private List<Person>[] personsPerLevel;
@@ -45,6 +56,11 @@ public class FastEmploymentAgencyMixins {
         if (this.openings instanceof ArrayList) {
             this.openings = new LinkedList<>(this.openings);
         }
+    }
+
+    @Shadow
+    private Person a(Job job, int integer) {
+        throw new UnsupportedOperationException();
     }
 
     @SuppressWarnings("unchecked")
@@ -64,29 +80,28 @@ public class FastEmploymentAgencyMixins {
         // Do note that we need to do it in sync for the first tick of a galaxy.
 
         // For the meantime, we will further reduce the frequency in which the arrays are assembled.
-        if (this.faststar$peopleAtLevel != null && Galimulator.getGameYear() % 60 != 0) {
+        if (this.faststar$jobsAtLevel != null && Galimulator.getGameYear() % 60 != 0) {
             return;
         }
 
         this.faststar$assembleQueryArraysSync();
     }
 
-    @Unique
-    private void faststar$assembleQueryArraysSync() {
-        List<Person>[] peopleAtLevel = this.personsPerLevel;
+    public void faststar$assembleQueryArraysSync() {
+        List<Job>[] jobsPerLevel = this.jobsPerLevel;
         @SuppressWarnings("unchecked") // Array initialisations with generics are not a thing - thank you JLS developers!
-        SpatialQueryArray<Person>[] peopleAtLevelQueries = new SpatialQueryArray[peopleAtLevel.length];
-        for (int i = 0; i < peopleAtLevel.length; i++) {
-            List<Person> people = peopleAtLevel[i];
-            Collection<PointObjectPair<Person>> peoplePosition = new ArrayList<>();
-            for (Person person : people) {
-                Vector2 location = person.getJob().getEmployer().getCoordinates();
-                peoplePosition.add(new PointObjectPair<>(person, location.x, location.y));
+        SpatialQueryArray<Job>[] jobsAtLevelQueries = new SpatialQueryArray[jobsPerLevel.length];
+        for (int i = 0; i < jobsPerLevel.length; i++) {
+            List<Job> jobs = jobsPerLevel[i];
+            Collection<PointObjectPair<Job>> peoplePosition = new ArrayList<>();
+            for (Job job : jobs) {
+                Vector2 location = job.getEmployer().getCoordinates();
+                peoplePosition.add(new PointObjectPair<>(job, location.x, location.y));
             }
-            peopleAtLevelQueries[i] = new SpatialQueryArray<>(peoplePosition);
+            jobsAtLevelQueries[i] = new SpatialQueryArray<>(peoplePosition);
         }
 
-        this.faststar$peopleAtLevel = peopleAtLevelQueries;
+        this.faststar$jobsAtLevel = jobsAtLevelQueries;
     }
 
     /**
@@ -132,7 +147,12 @@ public class FastEmploymentAgencyMixins {
         }
 
         Vector2 location = job.getEmployer().getCoordinates();
-        this.faststar$peopleAtLevel[level - 1].queryKnn(location.x, location.y, 200, candidates);
+        this.faststar$jobsAtLevel[level - 1].queryKnn(location.x, location.y, 40, (nearbyJob) -> {
+            Person nearbyPerson = nearbyJob.getCurrentHolder();
+            if (nearbyPerson != null) {
+                candidates.add(nearbyPerson);
+            }
+        });
 
         candidates.remove(replacement);
 
@@ -154,5 +174,10 @@ public class FastEmploymentAgencyMixins {
         });
 
         return candidates;
+    }
+
+    @Override
+    public Person faststar$invokeFindReplacement(Job vacantJob, int replacementRank) {
+        return this.a(vacantJob, replacementRank);
     }
 }

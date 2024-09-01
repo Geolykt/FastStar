@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -153,7 +154,7 @@ public class SpatialQueryArray<E> {
         };
     }
 
-    public void queryKnn(float x, float y, int nearestNeighbours, Collection<E> out) {
+    public void queryKnn(float x, float y, int nearestNeighbours, Consumer<E> out) {
         // FIXME this algorithm is inappropriate if multiple objects have the same distance
         float minDistance = 0F;
         while (nearestNeighbours-- != 0) {
@@ -162,7 +163,7 @@ public class SpatialQueryArray<E> {
             if (element == null) {
                 return;
             } else {
-                out.add(element.object);
+                out.accept(element.object);
                 float dx = element.x - x;
                 float dy = element.y - y;
                 minDistance = Math.nextUp(dx * dx + dy * dy); // That is this line is especially bad, but that's a little bit mandated here
