@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import de.geolykt.starloader.api.Galimulator;
@@ -59,7 +60,10 @@ public class EmploymentAgencyExpress {
             return Space.c(position);
         }
 
-        int idx = (int) ((position.x + maxX) / 0.35F) + (int) ((position.y + maxY) / 0.35F) * ((int) Math.ceil(maxX * 2F));
+        float x = MathUtils.clamp(position.x, -maxX, maxX);
+        float y = MathUtils.clamp(position.y, -maxX, maxX);
+
+        int idx = (int) ((x + maxX) / 0.35F) + (int) ((y + maxY) / 0.35F) * ((int) Math.ceil(maxX * 2F));
         ConcurrentNavigableMap<Integer, Person> gridSquare = EmploymentAgencyExpress.peopleGrid[idx];
         Map.Entry<Integer, Person> pe1 = gridSquare.lowerEntry(ThreadLocalRandom.current().nextInt() & 0x7FFF_FFFF);
         Map.Entry<Integer, Person> pe2 = gridSquare.lowerEntry(ThreadLocalRandom.current().nextInt() & 0x7FFF_FFFF);
