@@ -57,6 +57,7 @@ dependencies {
     compileOnly ("org.danilopianini:java-quadtree:${quadTreeVersion}") {
         exclude group: 'com.google.guava', module: 'guava'
     }
+    compileOnly "org.stianloader:stian-knn:${stianKNNVersion}"
 
     // Library mods
     dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240831:remapped"

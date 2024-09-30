@@ -18,13 +18,14 @@ import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.stianloader.stianknn.PointObjectPair;
+import org.stianloader.stianknn.SpatialIndexKNN;
+import org.stianloader.stianknn.SpatialQueryArray;
 
 import com.badlogic.gdx.math.Vector2;
 
 import de.geolykt.faststar.intrinsics.EmploymentAgencyExpress.EmploymentAgencySnailAccess;
 import de.geolykt.faststar.intrinsics.SetBasedPseudoList;
-import de.geolykt.faststar.intrinsics.SpatialQueryArray;
-import de.geolykt.faststar.intrinsics.SpatialQueryArray.PointObjectPair;
 import de.geolykt.starloader.api.Galimulator;
 
 import snoddasmannen.galimulator.EmploymentAgency;
@@ -41,7 +42,7 @@ public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
     transient ExecutorService b;
 
     @Unique
-    private transient SpatialQueryArray<Job>[] faststar$jobsAtLevel;
+    private transient SpatialIndexKNN<@NotNull Job>[] faststar$jobsAtLevel;
 
     @Shadow
     private List<Job> openings;
@@ -90,7 +91,7 @@ public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
     public void faststar$assembleQueryArraysSync() {
         List<Job>[] jobsPerLevel = this.jobsPerLevel;
         @SuppressWarnings("unchecked") // Array initialisations with generics are not a thing - thank you JLS developers!
-        SpatialQueryArray<Job>[] jobsAtLevelQueries = new SpatialQueryArray[jobsPerLevel.length];
+        SpatialQueryArray<@NotNull Job>[] jobsAtLevelQueries = new SpatialQueryArray[jobsPerLevel.length];
         for (int i = 0; i < jobsPerLevel.length; i++) {
             List<Job> jobs = jobsPerLevel[i];
             Collection<PointObjectPair<Job>> peoplePosition = new ArrayList<>();
@@ -98,7 +99,16 @@ public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
                 Vector2 location = job.getEmployer().getCoordinates();
                 peoplePosition.add(new PointObjectPair<>(job, location.x, location.y));
             }
-            jobsAtLevelQueries[i] = new SpatialQueryArray<>(peoplePosition);
+
+            @SuppressWarnings("deprecation")
+            float minX = Galimulator.getMap().getWidth() * -0.6F;
+            float maxX = -minX;
+            @SuppressWarnings("deprecation")
+            float minY = Galimulator.getMap().getHeight() * -0.6F;
+            float maxY = -minY;
+            float gridW = 16 * 0.035F;
+            float gridH = 16 * 0.035F;
+            jobsAtLevelQueries[i] = new SpatialQueryArray<>(peoplePosition, minX, minY, maxX, maxY, gridW, gridH);
         }
 
         this.faststar$jobsAtLevel = jobsAtLevelQueries;

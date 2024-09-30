@@ -34,6 +34,11 @@
                 "group": "org.stianloader",
                 "artifact": "stianloader-concurrent",
                 "version": "${stianloaderConcurrentVersion}"
+            },
+            {
+                "group": "org.stianloader",
+                "artifact": "stian-knn",
+                "version": "${stianKNNVersion}"
             }
         ]
     }

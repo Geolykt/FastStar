@@ -6,8 +6,10 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
+import org.stianloader.stianknn.PointObjectPair;
+import org.stianloader.stianknn.SpatialIndexKNN;
+import org.stianloader.stianknn.SpatialQueryArray;
 
-import de.geolykt.faststar.intrinsics.SpatialQueryArray.PointObjectPair;
 import de.geolykt.starloader.api.Galimulator;
 import de.geolykt.starloader.api.empire.Star;
 
@@ -16,10 +18,12 @@ import snoddasmannen.galimulator.actors.Actor;
 
 public class SpatialQuery {
 
-    private static SpatialQueryArray<Star> stars;
-    private static SpatialQueryArray<Actor> actors;
+    private static SpatialIndexKNN<@NotNull Star> stars;
+    @SuppressWarnings("deprecation")
+    private static org.stianloader.stianknn.SpatialQueryArrayLegacy<@NotNull Actor> actors;
 
     public static Actor getNearestActor(float x, float y, @NotNull Actor witness) {
+        @SuppressWarnings("deprecation")
         Iterator<Actor> it = SpatialQuery.actors.queryKnn(x, y);
         if (!it.hasNext()) {
             LoggerFactory.getLogger(SpatialQuery.class).warn("Actor {} not contained in SpatialQueryArray", witness);
@@ -30,6 +34,7 @@ public class SpatialQuery {
     }
 
     public static Actor getNearestActorHostile(float x, float y, @NotNull Actor witness) {
+        @SuppressWarnings("deprecation")
         Iterator<Actor> it = SpatialQuery.actors.queryKnn(x, y);
         while (it.hasNext()) {
             Actor v = it.next();
@@ -49,20 +54,29 @@ public class SpatialQuery {
         SpatialQuery.stars.queryKnn(x, y, cutoff, out::add);
     }
 
+    @SuppressWarnings("deprecation")
     public static void updateActorsActorTicking() {
-        List<PointObjectPair<Actor>> actorPositions = new ArrayList<>();
+        List<@NotNull PointObjectPair<@NotNull Actor>> actorPositions = new ArrayList<>();
         for (Actor a : Space.actors) {
             actorPositions.add(new PointObjectPair<>(a, a.getX(), a.getY()));
         }
-        SpatialQuery.actors = new SpatialQueryArray<>(actorPositions);
+        SpatialQuery.actors = new org.stianloader.stianknn.SpatialQueryArrayLegacy<>(actorPositions);
     }
 
     public static void updateStarsActorDrawing() {
-        List<PointObjectPair<Star>> starPositions = new ArrayList<>();
+        List<PointObjectPair<@NotNull Star>> starPositions = new ArrayList<>();
         for (Star s : Galimulator.getUniverse().getStarsView()) {
             starPositions.add(new PointObjectPair<>(s, s.getX(), s.getY()));
         }
-        SpatialQuery.stars = new SpatialQueryArray<>(starPositions);
+        @SuppressWarnings("deprecation")
+        float minX = Galimulator.getMap().getWidth() * -0.6F;
+        float maxX = -minX;
+        @SuppressWarnings("deprecation")
+        float minY = Galimulator.getMap().getHeight() * -0.6F;
+        float maxY = -minY;
+        float gridW = 16 * 0.035F;
+        float gridH = 16 * 0.035F;
+        SpatialQuery.stars = new SpatialQueryArray<>(starPositions, minX, minY, maxX, maxY, gridW, gridH);
     }
     /*
 
