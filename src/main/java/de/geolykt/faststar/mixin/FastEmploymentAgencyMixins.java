@@ -180,7 +180,7 @@ public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
             }
 
             // Only allow job changes if they are promotions
-            return oldJob.getJobLevel() <= job.getJobLevel();
+            return oldJob.getJobLevel() >= job.getJobLevel();
         });
 
         return candidates;
