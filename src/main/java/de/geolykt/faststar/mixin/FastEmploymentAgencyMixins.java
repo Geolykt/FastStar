@@ -160,11 +160,6 @@ public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
 
         candidates.remove(replacement);
 
-        if (candidates.isEmpty()) {
-            candidates.addAll(this.personsPerLevel[level - 1]);
-            return candidates;
-        }
-
         candidates.removeIf(p -> {
             Job oldJob = p.getJob();
 

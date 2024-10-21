@@ -168,7 +168,7 @@ public class EmploymentAgencyExpress {
                     Person replacement = snailAccess.faststar$invokeFindReplacement(job, i);
                     if (replacement == null) {
                         replacement = EmploymentAgencyExpress.createPersonExpress(job.getEmployer().getCoordinates(), maxX, maxY);
-                        task.index += i + 1;
+                        task.index += i;
                     } else {
                         Job borrowed = replacement.getJob();
                         borrowedJobs[borrowed.getJobLevel()].add(borrowed);
