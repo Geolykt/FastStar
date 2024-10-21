@@ -45,19 +45,13 @@ public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
     private transient SpatialIndexKNN<@NotNull Job>[] faststar$jobsAtLevel;
 
     @Shadow
-    private List<Job> openings;
-
-    @Shadow
     private List<Job>[] jobsPerLevel;
 
     @Shadow
-    private List<Person>[] personsPerLevel;
+    private List<Job> openings;
 
-    public FastEmploymentAgencyMixins() {
-        if (this.openings instanceof ArrayList) {
-            this.openings = new LinkedList<>(this.openings);
-        }
-    }
+    @Shadow
+    private List<Person>[] personsPerLevel;
 
     @Shadow
     private Person a(Job job, int integer) {
@@ -189,5 +183,12 @@ public class FastEmploymentAgencyMixins implements EmploymentAgencySnailAccess {
     @Override
     public Person faststar$invokeFindReplacement(Job vacantJob, int replacementRank) {
         return this.a(vacantJob, replacementRank);
+    }
+
+    @Inject(method = "<init>()V", at = @At("TAIL"))
+    private void faststar$linkedOpenings(CallbackInfo ci) {
+        if (this.openings instanceof ArrayList) {
+            this.openings = new LinkedList<>(this.openings);
+        }
     }
 }

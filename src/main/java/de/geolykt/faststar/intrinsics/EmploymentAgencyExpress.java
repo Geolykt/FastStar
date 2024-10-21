@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -116,8 +115,6 @@ public class EmploymentAgencyExpress {
 
         Galimulator.setBackgroundTask(task);
 
-        long t1 = System.currentTimeMillis();
-
         snailAccess.faststar$assembleQueryArraysSync();
 
         @SuppressWarnings("unchecked")
@@ -146,8 +143,6 @@ public class EmploymentAgencyExpress {
         }
 
         for (int j = 1; j < jobs.length; j++) {
-            LoggerFactory.getLogger(EmploymentAgencyExpress.class).info("Time taken t{}: {}ms", j + 1, System.currentTimeMillis() - t1);
-
             List<Job> populatingJobs = jobs[j];
             int populatingCount = populatingJobs.size();
             for (int i = 0; i < populatingCount; i++) {

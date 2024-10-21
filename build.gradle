@@ -46,11 +46,11 @@ dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
     compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240831:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
-    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241012"
+    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241020"
     // https://stianloader.org/maven/org/stianloader/micromixin-annotations/
     compileOnly "org.stianloader:micromixin-annotations:0.6.4-a20240825"
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
-    compileOnlyApi "org.jetbrains:annotations:24.1.0"
+    compileOnlyApi "org.jetbrains:annotations:26.0.1"
 
     // Libraries included via the extension.json (downloaded at runtime)
     compileOnly "org.stianloader:stianloader-concurrent:${stianloaderConcurrentVersion}"

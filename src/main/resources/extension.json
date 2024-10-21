@@ -38,7 +38,10 @@
             {
                 "group": "org.stianloader",
                 "artifact": "stian-knn",
-                "version": "${stianKNNVersion}"
+                "version": "${stianKNNVersion}",
+                "exclusions": [
+                    "org.jetbrains:annotations"
+                ]
             }
         ]
     }
