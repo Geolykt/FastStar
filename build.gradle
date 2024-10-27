@@ -69,7 +69,7 @@ dependencies {
     // https://stianloader.org/maven/de/geolykt/star-cell-shading/
     dependencyModsRuntime "de.geolykt:star-cell-shading:0.3.0-a20240804"
     // https://stianloader.org/maven/de/geolykt/s2dmenues/
-    dependencyModsRuntime "de.geolykt:s2dmenues:0.1.1-a20240802:remapped" // Especially this one has caused bugs in the past
+    dependencyModsRuntime "de.geolykt:s2dmenues:0.1.1-a20240802.1:remapped" // Especially this one has caused bugs in the past
 }
 
 remapJar {
