@@ -17,9 +17,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import de.geolykt.faststar.FastStar;
+import de.geolykt.faststar.JavaInterop;
 import de.geolykt.faststar.intrinsics.EmploymentAgencyExpress;
 import de.geolykt.faststar.intrinsics.SpatialQuery;
+import de.geolykt.faststar.intrinsics.TraderPopulationTask;
+import de.geolykt.starloader.api.Galimulator;
 import de.geolykt.starloader.api.empire.Star;
+import de.geolykt.starloader.api.gui.BackgroundTask;
 
 import snoddasmannen.galimulator.EmploymentAgency;
 import snoddasmannen.galimulator.MapData;
@@ -72,6 +76,36 @@ public class SpaceMixins {
     )
     private static void faststar$onActorDraw(CallbackInfoReturnable<RenderCache> cir) {
         SpatialQuery.updateStarsActorDrawing();
+    }
+
+    @Inject(
+        target = @Desc(owner = Space.class, value = "generateGalaxy", args = {int.class, MapData.class}, ret = void.class),
+        at = @At(value = "NEW", target = "Lsnoddasmannen/galimulator/actors/Trader;<init> (Lsnoddasmannen/galimulator/Star;)V"),
+        allow = 1,
+        require = 1
+    )
+    private static void faststar$onTraderCreation(CallbackInfo ci) {
+        BackgroundTask task = Galimulator.getBackgroundTask();
+        TraderPopulationTask tpt;
+        if (task instanceof TraderPopulationTask) {
+            tpt = (TraderPopulationTask) task;
+        } else {
+            Galimulator.setBackgroundTask(tpt = new TraderPopulationTask(task));
+        }
+        tpt.rawProgress.set(JavaInterop.getPlain(tpt.rawProgress) + 1);
+    }
+
+    @Inject(
+        target = @Desc(owner = Space.class, value = "generateGalaxy", args = {int.class, MapData.class}, ret = void.class),
+        at = @At(value = "CONSTANT", args = "intValue=0"),
+        slice = {
+            @Slice(from = @At(value = "NEW", target = "Lsnoddasmannen/galimulator/actors/Trader;<init> (Lsnoddasmannen/galimulator/Star;)V"), to = @At(value = "INVOKE", desc = @Desc(value = "getRandomStar", ret = snoddasmannen.galimulator.Star.class)))
+        },
+        allow = 1,
+        require = 1
+    )
+    private static void faststar$postTraderCreation(CallbackInfo ci) {
+        Galimulator.setBackgroundTask(((TraderPopulationTask) Galimulator.getBackgroundTask()).previousTask);
     }
 
     @Inject(

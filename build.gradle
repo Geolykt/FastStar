@@ -1,3 +1,11 @@
+buildscript {
+    configurations.all {
+        resolutionStrategy {
+            force 'org.stianloader:micromixin-remapper:0.2.1-a20241028'
+        }
+    }
+}
+
 plugins {
     id 'java'
     id 'java-library'
@@ -105,6 +113,14 @@ sourceSets {
             java.srcDir(getProjectDir().toPath().resolve('src/main/java21'))
         }
     }
+    java11 {
+        java {
+            compileClasspath += main.compileClasspath
+            compileClasspath += main.output
+            java.setSrcDirs(new java.util.ArrayList())
+            java.srcDir(getProjectDir().toPath().resolve('src/main/java11'))
+        }
+    }
 }
 
 compileJava21Java {
@@ -118,12 +134,28 @@ compileJava21Java {
     modularity.inferModulePath.set(false)
 }
 
+compileJava11Java {
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+    dependsOn compileJava
+
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+    modularity.inferModulePath.set(false)
+}
+
 // Actual Multi-release jar generation
 jar {
     dependsOn compileJava21Java
+    dependsOn compileJava11Java
 
     into('META-INF/versions/21') {
         from sourceSets.java21.output
+    }
+
+    into('META-INF/versions/11') {
+        from sourceSets.java11.output
     }
 
     manifest {
@@ -172,8 +204,10 @@ eclipse {
         file {
             whenMerged {
                 entries.removeIf { it.path == 'src/main/java21' }
+                entries.removeIf { it.path == 'src/main/java11' }
                 entries.removeIf { it.path == project.file('build/classes/java/main').getAbsolutePath() }
                 entries.removeIf { it.path == project.file('build/classes/java/java21').getAbsolutePath() }
+                entries.removeIf { it.path == project.file('build/classes/java/java11').getAbsolutePath() }
             }
         }
     }

@@ -19,6 +19,6 @@ public class JavaInterop {
 
     @Contract(pure = true)
     public static int getPlain(@NotNull AtomicInteger atomicInt) {
-        return atomicInt.get();
+        return atomicInt.getPlain();
     }
 }
