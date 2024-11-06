@@ -10,3 +10,5 @@ data
 *.launch
 *.dat
 hs_err_pid*.log
+*.log
+

@@ -80,7 +80,7 @@ public class SpaceMixins {
 
     @Inject(
         target = @Desc(owner = Space.class, value = "generateGalaxy", args = {int.class, MapData.class}, ret = void.class),
-        at = @At(value = "NEW", target = "Lsnoddasmannen/galimulator/actors/Trader;<init> (Lsnoddasmannen/galimulator/Star;)V"),
+        at = @At(value = "NEW", target = "Lsnoddasmannen/galimulator/actors/Trader;<init> (Lsnoddasmannen/galimulator/Star;)Lsnoddasmannen/galimulator/actors/Trader;"),
         allow = 1,
         require = 1
     )
@@ -99,7 +99,7 @@ public class SpaceMixins {
         target = @Desc(owner = Space.class, value = "generateGalaxy", args = {int.class, MapData.class}, ret = void.class),
         at = @At(value = "CONSTANT", args = "intValue=0"),
         slice = {
-            @Slice(from = @At(value = "NEW", target = "Lsnoddasmannen/galimulator/actors/Trader;<init> (Lsnoddasmannen/galimulator/Star;)V"), to = @At(value = "INVOKE", desc = @Desc(value = "getRandomStar", ret = snoddasmannen.galimulator.Star.class)))
+            @Slice(from = @At(value = "NEW", target = "Lsnoddasmannen/galimulator/actors/Trader;<init> (Lsnoddasmannen/galimulator/Star;)Lsnoddasmannen/galimulator/actors/Trader;"), to = @At(value = "INVOKE", desc = @Desc(value = "getRandomStar", ret = snoddasmannen.galimulator.Star.class)))
         },
         allow = 1,
         require = 1
@@ -118,7 +118,7 @@ public class SpaceMixins {
         allow = 1,
         require = 1
     )
-    private static void faststar$updateActorLoop(CallbackInfo ci) {
+    private static void faststar$updateActorLoop(CallbackInfoReturnable<Integer> cir) {
         SpatialQuery.updateActorsActorTicking();
     }
 

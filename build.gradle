@@ -28,6 +28,12 @@ repositories {
         name 'stianloader-maven'
         url 'https://stianloader.org/maven'
     }
+
+    maven {
+        name 'fabric-maven'
+        url 'https://maven.fabricmc.net/'
+    }
+
     mavenCentral()
     mavenLocal()
 }
@@ -52,11 +58,17 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20240831:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20241102:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
     devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241021"
+
     // https://stianloader.org/maven/org/stianloader/micromixin-annotations/
     compileOnly "org.stianloader:micromixin-annotations:0.6.4-a20240825"
+
+    //devRuntime "org.stianloader:launcher-mixin-fabric:4.0.0"
+    //devRuntime "com.google.code.gson:gson:2.8.9"
+    //devRuntime "com.google.guava:guava:31.1-jre"
+
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
     compileOnlyApi "org.jetbrains:annotations:26.0.1"
 
@@ -68,14 +80,14 @@ dependencies {
     compileOnly "org.stianloader:stian-knn:${stianKNNVersion}"
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20240831:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20241102:remapped"
 
     // Mods we also want to test this mod with, but don't actually depend on.
     dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.2.0-a20240831"
     // This one is there just for the sake of convinience
     dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240810:remapped"
     // https://stianloader.org/maven/de/geolykt/star-cell-shading/
-    dependencyModsRuntime "de.geolykt:star-cell-shading:0.3.0-a20240804"
+    dependencyModsRuntime "de.geolykt:star-cell-shading:0.3.1-a20241102"
     // https://stianloader.org/maven/de/geolykt/s2dmenues/
     dependencyModsRuntime "de.geolykt:s2dmenues:0.1.1-a20240802.1:remapped" // Especially this one has caused bugs in the past
 }
@@ -93,10 +105,24 @@ remapJar {
 runMods {
     from jar
     systemProperties.put("org.stianloader.sll.log.MIRROR_MAVEN_REQUESTS", true)
-    systemProperties.put("org.stianloader.sll.log.level", "DEBUG")
+    systemProperties.put("org.stianloader.sll.log.level", "INFO")
     systemProperties.put("classloader.dump", true)
     systemProperties.put("org.stianloader.micromixin.debug", false)
+    systemProperties.put("mixin.debug.verbose", true)
+    systemProperties.put("mixin.dumpTargetOnFailure", true)
+    systemProperties.put("mixin.debug", true)
     maxHeapSize = "16G"
+
+    // Jitwatch stuff
+    /*
+    jvmArgs "-XX:+UnlockDiagnosticVMOptions"
+    jvmArgs "-Xlog:class+load=info"
+    jvmArgs "-XX:+LogCompilation"
+    jvmArgs "-XX:+PrintAssembly"
+    jvmArgs "-XX:+DebugNonSafepoints"
+    jvmArgs "-XX:LogFile=faststar-jit.log" // Jvm log files can be HUGE (several hundred megs), so we will overwrite them to not bloat everything up
+    systemProperties.put("de.geolykt.faststar.nukeSMAPs", false) // SMAP genocide, because jitwatch is not a fan of them
+    */
 }
 
 build {
