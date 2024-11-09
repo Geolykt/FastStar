@@ -1,15 +1,7 @@
-buildscript {
-    configurations.all {
-        resolutionStrategy {
-            force 'org.stianloader:micromixin-remapper:0.2.1-a20241028'
-        }
-    }
-}
-
 plugins {
     id 'java'
     id 'java-library'
-    id 'gsl-starplane' version '0.2.0-a20240825'
+    id 'gsl-starplane' version '0.2.1-a20241109'
     id 'maven-publish'
     id 'eclipse'
 }
@@ -58,16 +50,18 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20241102:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20241109:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
-    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241021"
+    devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241104"
 
     // https://stianloader.org/maven/org/stianloader/micromixin-annotations/
-    compileOnly "org.stianloader:micromixin-annotations:0.6.4-a20240825"
+    compileOnly "org.stianloader:micromixin-annotations:0.7.1-a20241104"
 
-    //devRuntime "org.stianloader:launcher-mixin-fabric:4.0.0"
-    //devRuntime "com.google.code.gson:gson:2.8.9"
-    //devRuntime "com.google.guava:guava:31.1-jre"
+    /*
+    devRuntime "org.stianloader:launcher-mixin-fabric:4.0.0"
+    devRuntime "com.google.code.gson:gson:2.8.9"
+    devRuntime "com.google.guava:guava:31.1-jre"
+    */
 
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
     compileOnlyApi "org.jetbrains:annotations:26.0.1"
@@ -80,7 +74,7 @@ dependencies {
     compileOnly "org.stianloader:stian-knn:${stianKNNVersion}"
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20241102:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20241109:remapped"
 
     // Mods we also want to test this mod with, but don't actually depend on.
     dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.2.0-a20240831"
@@ -118,7 +112,7 @@ runMods {
     jvmArgs "-XX:+UnlockDiagnosticVMOptions"
     jvmArgs "-Xlog:class+load=info"
     jvmArgs "-XX:+LogCompilation"
-    jvmArgs "-XX:+PrintAssembly"
+    //jvmArgs "-XX:+PrintAssembly"
     jvmArgs "-XX:+DebugNonSafepoints"
     jvmArgs "-XX:LogFile=faststar-jit.log" // Jvm log files can be HUGE (several hundred megs), so we will overwrite them to not bloat everything up
     systemProperties.put("de.geolykt.faststar.nukeSMAPs", false) // SMAP genocide, because jitwatch is not a fan of them
