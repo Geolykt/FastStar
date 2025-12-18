@@ -55,14 +55,14 @@ public class EmploymentAgencyExpress {
     private static ConcurrentNavigableMap<Integer, Person>[] peopleGrid;
 
     private static Person createPersonExpress(Vector2 position, float maxX, float maxY) {
-        if (!EXPRESS_PERSON_CREATION) {
+        if (!EmploymentAgencyExpress.EXPRESS_PERSON_CREATION) {
             return Space.c(position);
         }
 
         float x = MathUtils.clamp(position.x, -maxX, maxX);
         float y = MathUtils.clamp(position.y, -maxX, maxX);
 
-        int idx = (int) ((x + maxX) / 0.35F) + (int) ((y + maxY) / 0.35F) * ((int) Math.ceil(maxX * 2F));
+        int idx = (int) ((x + maxX) / 0.35F) + (int) ((y + maxY) / 0.35F) * ((int) Math.ceil(maxX * 2F / 0.35F));
         ConcurrentNavigableMap<Integer, Person> gridSquare = EmploymentAgencyExpress.peopleGrid[idx];
         Map.Entry<Integer, Person> pe1 = gridSquare.lowerEntry(ThreadLocalRandom.current().nextInt() & 0x7FFF_FFFF);
         Map.Entry<Integer, Person> pe2 = gridSquare.lowerEntry(ThreadLocalRandom.current().nextInt() & 0x7FFF_FFFF);
@@ -95,7 +95,7 @@ public class EmploymentAgencyExpress {
         float maxX = Space.getMaxX() + 0.7F;
         float maxY = Space.getMaxY() + 0.7F;
         @SuppressWarnings("unchecked")
-        ConcurrentNavigableMap<Integer, Person>[] peopleGrid = new ConcurrentNavigableMap[(int) ((maxY * 2) / 0.35F) * ((int) Math.ceil(maxX * 2F))];
+        ConcurrentNavigableMap<Integer, Person>[] peopleGrid = new ConcurrentNavigableMap[(int) ((maxY * 2) / 0.35F) * ((int) Math.ceil(maxX * 2F / 0.35F))];
         EmploymentAgencyExpress.peopleGrid = peopleGrid;
         for (int i = 0; i < peopleGrid.length; i++) {
             peopleGrid[i] = new ConcurrentSkipListMap<>();
