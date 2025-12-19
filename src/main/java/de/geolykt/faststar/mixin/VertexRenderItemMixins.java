@@ -40,7 +40,7 @@ public class VertexRenderItemMixins {
             batch.setProjectionMatrix(projMat);
         }
 
-        batch.draw(GalFX.whitesquare.getTexture(), this.vertices, 0, 20);
+        batch.draw(GalFX.whitesquareRegion.getTexture(), this.vertices, 0, 20);
     }
 
     @Overwrite

@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'java-library'
-    id 'gsl-starplane' version '0.2.3-a20251020'
+    id 'gsl-starplane' version '0.2.3-a20251219'
     id 'maven-publish'
     id 'eclipse'
 }
@@ -31,7 +31,7 @@ repositories {
 }
 
 configurations {
-    // mappings
+    mappings
     dependencyModsRuntime {
         transitive = false
     }
@@ -46,7 +46,7 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20251218.1:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20251219:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
     devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241104"
     //devRuntime "org.stianloader:launcher-sponge:4.0.0-a20250819"
@@ -72,25 +72,24 @@ dependencies {
     compileOnly "org.stianloader:stian-knn:${stianKNNVersion}"
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20251218.1:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20251219:remapped"
 
     // Mods we also want to test this mod with, but don't actually depend on.
     // https://stianloader.org/maven/de/geolykt/fast-asynchronous-starlane-triangulator/
     dependencyModsRuntime "de.geolykt:fast-asynchronous-starlane-triangulator:1.3.0-a20241109"
     // This one is there just for the sake of convinience
-    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.1.0-a20240810:remapped"
+    dependencyModsRuntime "de.geolykt:galimulator-profiler:0.2.1-a20251219:remapped"
     // https://stianloader.org/maven/de/geolykt/star-cell-shading/
-    dependencyModsRuntime "de.geolykt:star-cell-shading:0.4.0-a20250703"
+    dependencyModsRuntime "de.geolykt:star-cell-shading:0.4.1-a20251218"
     // https://stianloader.org/maven/de/geolykt/s2dmenues/
     dependencyModsRuntime "de.geolykt:s2dmenues:0.1.2-a20250823:remapped" // Especially this one has caused bugs in the past
 
-    //mappings group: 'org.stianloader', name: 'newStarmap', version: '0.0.1', ext: "enigma.tar.xz"
+    mappings "de.geolykt:bstarmap:0.0.1-a20251219@tinyv2.xz"
 }
 
 starplane {
     withRAS(rootProject.file("src/main/resources/faststar.ras"))
-    mappingsFile("TINYv2", file("newStarmap.tinyv2"))
-    //mappingsFile("ENIGMA_DIR", "TAR_XZ", configurations["mappings"])
+    mappingsFile("tinyv2", "XZ", configurations["mappings"])
 }
 
 remapJar {

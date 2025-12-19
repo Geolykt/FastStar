@@ -56,7 +56,7 @@ public class EmploymentAgencyExpress {
 
     private static Person createPersonExpress(Vector2 position, float maxX, float maxY) {
         if (!EmploymentAgencyExpress.EXPRESS_PERSON_CREATION) {
-            return Space.c(position);
+            return Space.createPerson(position);
         }
 
         float x = MathUtils.clamp(position.x, -maxX, maxX);
