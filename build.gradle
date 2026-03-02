@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'java-library'
-    id 'gsl-starplane' version '0.2.3-a20251219'
+    id 'gsl-starplane' version '0.2.4-a20260302'
     id 'maven-publish'
     id 'eclipse'
 }
@@ -46,7 +46,7 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20251219:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20251219.1:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
     devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241104"
     //devRuntime "org.stianloader:launcher-sponge:4.0.0-a20250819"
@@ -62,7 +62,7 @@ dependencies {
     */
 
     compileOnly "de.geolykt.starloader:starplane-annotations:1.0.0"
-    compileOnlyApi "org.jetbrains:annotations:26.0.2"
+    compileOnlyApi "org.jetbrains:annotations:26.0.2-1"
 
     // Libraries included via the extension.json (downloaded at runtime)
     compileOnly "org.stianloader:stianloader-concurrent:${stianloaderConcurrentVersion}"
@@ -72,7 +72,7 @@ dependencies {
     compileOnly "org.stianloader:stian-knn:${stianKNNVersion}"
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20251219:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20251219.1:remapped"
 
     // Mods we also want to test this mod with, but don't actually depend on.
     // https://stianloader.org/maven/de/geolykt/fast-asynchronous-starlane-triangulator/
@@ -84,7 +84,7 @@ dependencies {
     // https://stianloader.org/maven/de/geolykt/s2dmenues/
     dependencyModsRuntime "de.geolykt:s2dmenues:0.1.2-a20250823:remapped" // Especially this one has caused bugs in the past
 
-    mappings "de.geolykt:bstarmap:0.0.1-a20251219@tinyv2.xz"
+    mappings "de.geolykt:bstarmap:0.0.1-a20251220@tinyv2.xz"
 }
 
 starplane {
@@ -104,7 +104,7 @@ remapJar {
 
 runMods {
     from jar
-    systemProperties.put("org.stianloader.sll.log.MIRROR_MAVEN_REQUESTS", true)
+    systemProperties.put("org.stianloader.sll.log.MIRROR_MAVEN_REQUESTS", false)
     systemProperties.put("org.stianloader.sll.log.level", "INFO")
     systemProperties.put("classloader.dump", true)
     systemProperties.put("org.stianloader.micromixin.debug", false)

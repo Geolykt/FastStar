@@ -8,17 +8,17 @@
     "externalDependencies" : {
         "repositories" : [
             {
+                 "name" : "stianloader-mirror",
+                 "url" : "https://stianloader.org/maven2/all"
+             },
+             {
                  "name" : "stianloader",
-                 "url" : "https://stianloader.org/maven/",
-                 "mirrorable" : false
-             }, {
+                 "url" : "https://stianloader.org/maven/"
+             },
+             {
                  "name" : "Central",
                  "url" : "https://repo1.maven.org/maven2/",
                  "mirrorOnly" : true
-             }, {
-                 "name" : "stianloader-central-mirror",
-                 "url" : "https://stianloader.org/central-mirror/",
-                 "mirrorable" : false
              }
         ],
         "artifacts" : [

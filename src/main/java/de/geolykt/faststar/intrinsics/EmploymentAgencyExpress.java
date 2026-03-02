@@ -138,7 +138,7 @@ public class EmploymentAgencyExpress {
             int lowborns = lowbornJobs.size();
             for (int i = 0; i < lowborns; i++) {
                 Job job = lowbornJobs.get(task.index = i);
-                employmentAgency.a(job, EmploymentAgencyExpress.createPersonExpress(job.getEmployer().getCoordinates(), maxX, maxY));
+                employmentAgency.setJob(job, EmploymentAgencyExpress.createPersonExpress(job.getEmployer().getCoordinates(), maxX, maxY));
             }
         }
 
@@ -156,7 +156,7 @@ public class EmploymentAgencyExpress {
                     borrowedJobs[borrowed.getJobLevel()].add(borrowed);
                     task.index += (borrowed.getJobLevel() - j + 1);
                 }
-                employmentAgency.a(job, replacement);
+                employmentAgency.setJob(job, replacement);
             }
 
             // Bubble down the borrowed jobs
@@ -174,7 +174,7 @@ public class EmploymentAgencyExpress {
                         borrowedJobs[borrowed.getJobLevel()].add(borrowed);
                         task.index += (borrowed.getJobLevel() - i + 1);
                     }
-                    employmentAgency.a(job, replacement);
+                    employmentAgency.setJob(job, replacement);
                 }
                 bubbleHost.clear();
             }
@@ -184,7 +184,7 @@ public class EmploymentAgencyExpress {
             int lowborns = lowbornJobs.size();
             for (int i = 0; i < lowborns; i++) {
                 Job job = lowbornJobs.get(i);
-                employmentAgency.a(job, EmploymentAgencyExpress.createPersonExpress(job.getEmployer().getCoordinates(), maxX, maxY));
+                employmentAgency.setJob(job, EmploymentAgencyExpress.createPersonExpress(job.getEmployer().getCoordinates(), maxX, maxY));
                 task.index++;
             }
             lowbornJobs.clear();
