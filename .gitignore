@@ -11,4 +11,4 @@ data
 *.dat
 hs_err_pid*.log
 *.log
-
+*.hprof

@@ -46,7 +46,7 @@ deployMods {
 
 dependencies {
     // The versions of SLAPI are listed here: https://stianloader.org/maven/de/geolykt/starloader-api/
-    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20251219.1:remapped"
+    compileOnlyApi "de.geolykt:starloader-api:2.0.0-a20260303.1:remapped"
     // The versions of launcher-micromixin are listed here: https://stianloader.org/maven/org/stianloader/launcher-micromixin/
     devRuntime "org.stianloader:launcher-micromixin:4.0.0-a20241104"
     //devRuntime "org.stianloader:launcher-sponge:4.0.0-a20250819"
@@ -72,7 +72,7 @@ dependencies {
     compileOnly "org.stianloader:stian-knn:${stianKNNVersion}"
 
     // Library mods
-    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20251219.1:remapped"
+    dependencyModsRuntime "de.geolykt:starloader-api:2.0.0-a20260303.1:remapped"
 
     // Mods we also want to test this mod with, but don't actually depend on.
     // https://stianloader.org/maven/de/geolykt/fast-asynchronous-starlane-triangulator/
